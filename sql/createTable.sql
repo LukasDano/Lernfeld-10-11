@@ -1,0 +1,19 @@
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    brith_date BOOLEAN NOT NULL,             
+    gender VARCHAR(1) NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE runs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    date DATE NOT NULL,
+    distance_km DECIMAL(5,2) NOT NULL,
+    picture VARCHAR(255) DEFAULT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);

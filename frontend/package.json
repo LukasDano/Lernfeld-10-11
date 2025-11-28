@@ -1,10 +1,10 @@
 {
-    "name": "lernfeld-11",
+    "name": "laufchallenge",
     "private": true,
     "version": "1.0.0",
     "type": "module",
     "scripts": {
-        "start": "vite",
+        "dev": "vite",
         "build": "tsc -b && vite build",
         "lint": "eslint lf",
         "preview": "vite preview",

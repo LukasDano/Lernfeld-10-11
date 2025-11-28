@@ -9,3 +9,10 @@
 
 ## Requirements
 - Node (min. v24.11.1)
+
+## Setup (aus dem Projekt Root)
+```bash
+cd frontend
+npm i
+npm run dev
+```
