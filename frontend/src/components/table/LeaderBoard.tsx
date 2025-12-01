@@ -10,13 +10,16 @@ type LeaderBoardProps = {
 };
 
 export const LeaderBoard: FC<LeaderBoardProps> = ({ userList }) => {
-    const [userOrder, setUserInOrder] = useState<User[]>(userList);
+    const [users, setUsers] = useState<User[]>(userList);
 
     useEffect(() => {
-        console.log(userList[0]);
-        const copy = [...userOrder];
-        const sortedList = copy.sort((a,b) => getTotalDistanceFor(a.id) - getTotalDistanceFor(b.id)).reverse();
-        setUserInOrder(sortedList);
+        const copy = [...users];
+        const sortedList = copy
+            .sort((a,b) =>
+                getTotalDistanceFor(a.id) - getTotalDistanceFor(b.id))
+            .reverse();
+
+        setUsers(sortedList);
     }, [userList]);
 
     return (
@@ -38,7 +41,7 @@ export const LeaderBoard: FC<LeaderBoardProps> = ({ userList }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {userOrder.map((user, index) => (
+                        {users.map((user, index) => (
                             <tr
                                 key={index}
                                 className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-gray-100`}
