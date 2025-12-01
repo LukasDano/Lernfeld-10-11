@@ -1,11 +1,11 @@
-import type {  FC,  ReactNode } from 'react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import type { FC, ReactNode } from 'react';
 import { useMemo } from 'react';
 
+import type { Run, User } from '../data/types.ts';
+import { getRuns, getUsers } from '../utils/api/get.ts';
+import { postNewRun, postNewUser } from '../utils/api/post.ts';
 import { AppContext, type AppContextValues } from './AppContext.tsx';
-import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
-import {getRuns, getUsers} from "../utils/api/get.ts";
-import type {Run, User} from "../data/types.ts";
-import {postNewRun, postNewUser} from "../utils/api/post.ts";
 
 type AppContextProviderProps = {
     children: ReactNode;
@@ -26,7 +26,7 @@ export const AppContextProvider: FC<AppContextProviderProps> = ({ children }) =>
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['runs'] });
-        }
+        },
     });
 
     const { data: userList = [] } = useQuery({
@@ -41,19 +41,18 @@ export const AppContextProvider: FC<AppContextProviderProps> = ({ children }) =>
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['users'] });
-        }
+        },
     });
 
-    const appContextValues = useMemo<AppContextValues>(() => ({
-        runList,
-        addRun: addRunMutation.mutate,
-        userList,
-        addUser: addUserMutation.mutate
-    }), [runList, userList]);
-
-    return (
-        <AppContext.Provider value={appContextValues}>
-            {children}
-        </AppContext.Provider>
+    const appContextValues = useMemo<AppContextValues>(
+        () => ({
+            runList,
+            addRun: addRunMutation.mutate,
+            userList,
+            addUser: addUserMutation.mutate,
+        }),
+        [runList, addRunMutation.mutate, userList, addUserMutation.mutate],
     );
+
+    return <AppContext.Provider value={appContextValues}>{children}</AppContext.Provider>;
 };

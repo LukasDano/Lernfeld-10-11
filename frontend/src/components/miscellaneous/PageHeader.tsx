@@ -37,7 +37,10 @@ type HeaderButtonProps = {
 const HeaderButton: FC<HeaderButtonProps> = ({ icon, onClick, tooltip }) => {
     return (
         <Tippy content={tooltip} animation={'scale'}>
-            <button className={'flex items-center gap-2 px-4 py-2 rounded-lg shadow transition bg-blue-500'} onClick={onClick}>
+            <button
+                className={'flex items-center gap-2 px-4 py-2 rounded-lg shadow transition bg-blue-500'}
+                onClick={onClick}
+            >
                 {icon}
             </button>
         </Tippy>

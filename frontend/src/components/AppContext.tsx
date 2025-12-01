@@ -1,5 +1,6 @@
 import { createContext } from 'react';
-import type {Run, User} from "../data/types.ts";
+
+import type { Run, User } from '../data/types.ts';
 
 export type AppContextValues = {
     runList: Run[];

@@ -1,21 +1,18 @@
-import {useContext, useMemo} from 'react';
+import { useContext, useMemo } from 'react';
 import 'tippy.js/dist/tippy.css';
 
-import {TotalDistanceColumn} from "./TotalDistanceColumn.tsx";
-import {getTotalDistanceFor} from "../../utils/utility.ts";
-import {AppContext} from "../AppContext.tsx";
+import { getTotalDistanceFor } from '../../utils/utility.ts';
+import { AppContext } from '../AppContext.tsx';
+import { TotalDistanceColumn } from './TotalDistanceColumn.tsx';
 
 export const LeaderBoard = () => {
-    const {userList, runList} = useContext(AppContext);
+    const { userList, runList } = useContext(AppContext);
 
     const sortedUsers = useMemo(() => {
         const copy = [...userList];
 
-        return copy
-            .sort((a, b) =>
-                getTotalDistanceFor(b.id, runList) - getTotalDistanceFor(a.id, runList)
-            );
-    }, [userList]);
+        return copy.sort((a, b) => getTotalDistanceFor(b.id, runList) - getTotalDistanceFor(a.id, runList));
+    }, [userList, runList]);
 
     return (
         <div className="max-w-3xl mx-auto mt-8">
@@ -41,9 +38,9 @@ export const LeaderBoard = () => {
                                 key={index}
                                 className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-gray-100`}
                             >
-                                <td className="px-4 py-2 text-sm text-gray-800">{index + 1 + "."}</td>
+                                <td className="px-4 py-2 text-sm text-gray-800">{index + 1 + '.'}</td>
                                 <td className="px-4 py-2 text-sm text-gray-800">{user.name}</td>
-                                <TotalDistanceColumn userId={user.id}/>
+                                <TotalDistanceColumn userId={user.id} />
                             </tr>
                         ))}
                     </tbody>
