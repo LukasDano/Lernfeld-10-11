@@ -16,3 +16,8 @@ cd frontend
 npm i
 npm run dev
 ```
+
+## Start local PHP-Backend
+```bash
+php -S localhost:8000
+```

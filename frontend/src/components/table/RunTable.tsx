@@ -1,16 +1,15 @@
-import { type FC, useEffect, useState } from 'react';
+import { useContext, useEffect, useState} from 'react';
 import 'tippy.js/dist/tippy.css';
 
 import type { Run } from '../../data/types.ts';
 import { UserColumn } from './UserColumn.tsx';
+import {AppContext} from "../AppContext.tsx";
 
 type SortCriterion = 'distance' | 'date';
 
-type RunTableProps = {
-    runList: Run[];
-};
+export const RunTable = () => {
+    const {runList} = useContext(AppContext);
 
-export const RunTable: FC<RunTableProps> = ({ runList }) => {
     const [list, setList] = useState<Run[]>(runList);
 
     useEffect(() => {

@@ -1,25 +1,20 @@
-import {type FC, useEffect, useState,} from 'react';
+import {useContext, useMemo} from 'react';
 import 'tippy.js/dist/tippy.css';
 
-import type { User } from '../../data/types.ts';
 import {TotalDistanceColumn} from "./TotalDistanceColumn.tsx";
 import {getTotalDistanceFor} from "../../utils/utility.ts";
+import {AppContext} from "../AppContext.tsx";
 
-type LeaderBoardProps = {
-    userList: User[];
-};
+export const LeaderBoard = () => {
+    const {userList, runList} = useContext(AppContext);
 
-export const LeaderBoard: FC<LeaderBoardProps> = ({ userList }) => {
-    const [users, setUsers] = useState<User[]>(userList);
+    const sortedUsers = useMemo(() => {
+        const copy = [...userList];
 
-    useEffect(() => {
-        const copy = [...users];
-        const sortedList = copy
-            .sort((a,b) =>
-                getTotalDistanceFor(a.id) - getTotalDistanceFor(b.id))
-            .reverse();
-
-        setUsers(sortedList);
+        return copy
+            .sort((a, b) =>
+                getTotalDistanceFor(b.id, runList) - getTotalDistanceFor(a.id, runList)
+            );
     }, [userList]);
 
     return (
@@ -41,7 +36,7 @@ export const LeaderBoard: FC<LeaderBoardProps> = ({ userList }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {users.map((user, index) => (
+                        {sortedUsers.map((user, index) => (
                             <tr
                                 key={index}
                                 className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-gray-100`}

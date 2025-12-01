@@ -1,16 +1,19 @@
-import { type FC, useEffect, useState } from 'react';
+import {type FC, useContext, useEffect, useState} from 'react';
 
 import {getTotalDistanceFor} from "../../utils/utility.ts";
+import {AppContext} from "../AppContext.tsx";
 
 type TotalDistanceColumnProps = {
     userId: number;
 };
 
 export const TotalDistanceColumn: FC<TotalDistanceColumnProps> = ({ userId }) => {
+    const {runList} = useContext(AppContext);
+
     const [totalDistance, setTotalDistance] = useState<number>(0);
 
     useEffect(() => {
-        const distance = getTotalDistanceFor(userId);
+        const distance = getTotalDistanceFor(userId, runList);
         setTotalDistance(distance);
     }, [userId]);
 

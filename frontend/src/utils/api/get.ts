@@ -1,9 +1,9 @@
 import type {Run, User} from "../../data/types.ts";
 
-// ToDo Store these in the context and use react-query to automatically update the data every now and than
+const backendUrl = "http://localhost:8000/";
 
 export const getUsers = async (): Promise<User[]> => {
-    const url = "http://localhost:8000/user.php";
+    const url = backendUrl + "user.php";
 
     const response = await fetch(url, {method: "GET"});
     const json = await response.json();
@@ -11,7 +11,7 @@ export const getUsers = async (): Promise<User[]> => {
 };
 
 export const getRuns = async (): Promise<Run[]> => {
-    const url = "http://localhost:8000/runs.php";
+    const url = backendUrl + "runs.php";
 
     const response = await fetch(url, {method: "GET"});
     const json = await response.json();

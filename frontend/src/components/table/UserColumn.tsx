@@ -1,12 +1,14 @@
-import { type FC, useEffect, useState } from 'react';
+import {type FC, useContext, useEffect, useState} from 'react';
 
-import { users } from '../../data/mockData.ts';
+import {AppContext} from "../AppContext.tsx";
 
 type UserColumnProps = {
     userId: number;
 };
 
 export const UserColumn: FC<UserColumnProps> = ({ userId }) => {
+    const {userList} = useContext(AppContext);
+
     const [username, setUsername] = useState<string>('-');
 
     useEffect(() => {
@@ -15,7 +17,7 @@ export const UserColumn: FC<UserColumnProps> = ({ userId }) => {
     }, [userId]);
 
     const getUserById = (id: number): string => {
-        const foundUsers = users.filter((user) => user.id === id);
+        const foundUsers = userList.filter((user) => user.id === id);
         if (foundUsers.length < 1) {
             console.warn('User wurde nicht gefunden!');
             return '-';

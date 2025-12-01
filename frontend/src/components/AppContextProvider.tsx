@@ -1,0 +1,59 @@
+import type {  FC,  ReactNode } from 'react';
+import { useMemo } from 'react';
+
+import { AppContext, type AppContextValues } from './AppContext.tsx';
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
+import {getRuns, getUsers} from "../utils/api/get.ts";
+import type {Run, User} from "../data/types.ts";
+import {postNewRun, postNewUser} from "../utils/api/post.ts";
+
+type AppContextProviderProps = {
+    children: ReactNode;
+};
+
+export const AppContextProvider: FC<AppContextProviderProps> = ({ children }) => {
+    const queryClient = useQueryClient();
+
+    const { data: runList = [] } = useQuery({
+        queryKey: ['runs'],
+        queryFn: getRuns,
+        refetchInterval: 10000,
+    });
+
+    const addRunMutation = useMutation({
+        mutationFn: async (newRun: Run) => {
+            return await postNewRun(newRun);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['runs'] });
+        }
+    });
+
+    const { data: userList = [] } = useQuery({
+        queryKey: ['users'],
+        queryFn: getUsers,
+        refetchInterval: 10000,
+    });
+
+    const addUserMutation = useMutation({
+        mutationFn: async (newUser: User) => {
+            return await postNewUser(newUser);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['users'] });
+        }
+    });
+
+    const appContextValues = useMemo<AppContextValues>(() => ({
+        runList,
+        addRun: addRunMutation.mutate,
+        userList,
+        addUser: addUserMutation.mutate
+    }), [runList, userList]);
+
+    return (
+        <AppContext.Provider value={appContextValues}>
+            {children}
+        </AppContext.Provider>
+    );
+};
