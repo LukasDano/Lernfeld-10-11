@@ -1,7 +1,7 @@
 import {useContext, useState} from 'react';
 
-import {AddDataModal} from './AddDataModal.tsx';
-import {PageHeader} from './PageHeader.tsx';
+import {AddDataModal} from './miscellaneous/AddDataModal.tsx';
+import {PageHeader} from './miscellaneous/PageHeader.tsx';
 import {RunTable} from './table/RunTable.tsx';
 import {LeaderBoard} from "./table/LeaderBoard.tsx";
 import {AppContext} from "./AppContext.tsx";

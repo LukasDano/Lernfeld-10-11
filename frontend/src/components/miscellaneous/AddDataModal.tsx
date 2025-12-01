@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { FC } from 'react';
 
-import type { Run } from '../data/types.ts';
+import type { Run } from '../../data/types.ts';
 
 type RunCreateModalProps = {
     isOpen: boolean;
