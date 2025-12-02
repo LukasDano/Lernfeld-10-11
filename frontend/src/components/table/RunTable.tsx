@@ -3,20 +3,19 @@ import 'tippy.js/dist/tippy.css';
 
 import type { Run } from '../../data/types.ts';
 import { AppContext } from '../AppContext.tsx';
-import { UserColumn } from './UserColumn.tsx';
 
 type SortCriterion = 'distance' | 'date';
 
 export const RunTable = () => {
     const { runList } = useContext(AppContext);
 
-    function sortListBy(sortCriterion: SortCriterion): Run[] {
+    const sortListBy = (sortCriterion: SortCriterion): Run[] => {
         const listCopy = [...runList];
         return listCopy.sort((a, b) => {
-            if (sortCriterion === 'distance') return a.distanceKm - b.distanceKm;
+            if (sortCriterion === 'distance') return a.distance_km - b.distance_km;
             else return b.date.localeCompare(a.date);
         });
-    }
+    };
 
     return (
         <div className="max-w-3xl mx-auto mt-8">
@@ -42,8 +41,8 @@ export const RunTable = () => {
                                 key={index}
                                 className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-gray-100`}
                             >
-                                <UserColumn userId={run.userId} />
-                                <td className="px-4 py-2 text-sm text-gray-800">{run.distanceKm} km</td>
+                                <td className="px-4 py-2 text-sm text-gray-800">{run.name}</td>
+                                <td className="px-4 py-2 text-sm text-gray-800">{run.distance_km} km</td>
                                 <td className="px-4 py-2 text-sm text-gray-800">{run.date}</td>
                             </tr>
                         ))}

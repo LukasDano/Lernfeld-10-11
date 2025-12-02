@@ -1,16 +1,22 @@
 export type User = {
     id: number;
     name: string;
-    brithDate: string; //TODO: change to Date
+    brithDate: string;
     gender: string;
-    createdAt: string; //TODO: change to Date
+    createdAt: string;
 };
 
 export type Run = {
-    id: number;
-    userId: number;
-    date: string; //TODO: change to Date
-    distanceKm: number;
-    picture: string;
-    createdAt: string; //TODO: change to Date
+    name: string;
+    date: string;
+    distance_km: number;
+    challenge_id: string;
+};
+
+export type Rank = {
+    name: string;
+    total_km: number;
+    lauf_tage: number;
+    geburtsdatum: string;
+    geschlecht: string;
 };

@@ -1,12 +1,10 @@
 import { useState } from 'react';
 import type { FC } from 'react';
 
-import type { Run } from '../../data/types.ts';
-
 type RunCreateModalProps = {
     isOpen: boolean;
     onClose: () => void;
-    onSave: (run: Run) => void;
+    onSave: (run: any) => void; //eslint-disable  @typescript-eslint/no-explicit-any
 };
 
 export const AddDataModal: FC<RunCreateModalProps> = ({ isOpen, onClose, onSave }) => {
@@ -23,14 +21,7 @@ export const AddDataModal: FC<RunCreateModalProps> = ({ isOpen, onClose, onSave 
             return;
         }
 
-        const newRun: Run = {
-            id: Date.now(), // ToDo Einfach die nächst höhere verfügbare ID nehmen
-            createdAt: new Date().toISOString(),
-            picture,
-            userId,
-            date,
-            distanceKm,
-        };
+        const newRun = {};
 
         onSave(newRun);
         onClose();
