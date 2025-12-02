@@ -1,8 +1,8 @@
-import type { Run, User } from './types';
+import type { Rank, Run, User } from './types';
 
 // Testdaten mit Chat-GPT generiert
 
-export const users: User[] = [
+export const fakeUsers: User[] = [
     { id: 1, name: 'Anna Müller', brithDate: '2008-05-12', gender: 'f', createdAt: '2023-05-12' },
     { id: 2, name: 'Maximilian Schmidt', brithDate: '1995-11-03', gender: 'm', createdAt: '2022-08-21' },
     { id: 3, name: 'Sophie Bauer', brithDate: '2001-02-18', gender: 'f', createdAt: '2023-01-15' },
@@ -19,33 +19,60 @@ export const users: User[] = [
     { id: 14, name: 'Tim Braun', brithDate: '1996-05-07', gender: 'm', createdAt: '2022-12-19' },
     { id: 15, name: 'Sarah Wolf', brithDate: '2004-08-23', gender: 'f', createdAt: '2023-05-30' },
 ];
-export const runs: Run[] = [
-    { id: 1, userId: 1, date: '2023-06-01', distanceKm: 5.2, picture: 'run1.jpg' },
-    { id: 2, userId: 1, date: '2023-06-05', distanceKm: 6.1, picture: 'run2.jpg' },
-    { id: 3, userId: 1, date: '2023-06-10', distanceKm: 4.8, picture: 'run3.jpg' },
-    { id: 4, userId: 2, date: '2023-06-02', distanceKm: 10.5, picture: 'run4.jpg' },
-    { id: 5, userId: 3, date: '2023-06-03', distanceKm: 7.8, picture: 'run5.jpg' },
-    { id: 6, userId: 4, date: '2023-06-04', distanceKm: 12.1, picture: 'run6.jpg' },
-    { id: 7, userId: 5, date: '2023-06-05', distanceKm: 4.3, picture: 'run7.jpg' },
-    { id: 8, userId: 6, date: '2023-06-06', distanceKm: 6.7, picture: 'run8.jpg' },
-    { id: 9, userId: 6, date: '2023-06-12', distanceKm: 7.2, picture: 'run9.jpg' },
-    { id: 10, userId: 7, date: '2023-06-07', distanceKm: 8.2, picture: 'run10.jpg' },
-    { id: 11, userId: 8, date: '2023-06-08', distanceKm: 3.5, picture: 'run11.jpg' },
-    { id: 12, userId: 8, date: '2023-06-15', distanceKm: 4.0, picture: 'run12.jpg' },
-    { id: 13, userId: 9, date: '2023-06-09', distanceKm: 9.0, picture: 'run13.jpg' },
-    { id: 14, userId: 10, date: '2023-06-10', distanceKm: 11.3, picture: 'run14.jpg' },
-    { id: 15, userId: 10, date: '2023-06-14', distanceKm: 10.8, picture: 'run15.jpg' },
-    { id: 16, userId: 11, date: '2023-06-11', distanceKm: 5.5, picture: 'run16.jpg' },
-    { id: 17, userId: 12, date: '2023-06-12', distanceKm: 7.0, picture: 'run17.jpg' },
-    { id: 18, userId: 12, date: '2023-06-18', distanceKm: 6.5, picture: 'run18.jpg' },
-    { id: 19, userId: 13, date: '2023-06-13', distanceKm: 6.2, picture: 'run19.jpg' },
-    { id: 20, userId: 14, date: '2023-06-14', distanceKm: 10.0, picture: 'run20.jpg' },
-    { id: 21, userId: 14, date: '2023-06-20', distanceKm: 9.5, picture: 'run21.jpg' },
-    { id: 22, userId: 14, date: '2023-06-25', distanceKm: 8.7, picture: 'run22.jpg' },
-    { id: 23, userId: 15, date: '2023-06-15', distanceKm: 4.8, picture: 'run23.jpg' },
-    { id: 24, userId: 3, date: '2023-06-18', distanceKm: 8.0, picture: 'run24.jpg' },
-    { id: 25, userId: 5, date: '2023-06-21', distanceKm: 5.1, picture: 'run25.jpg' },
-    { id: 26, userId: 9, date: '2023-06-22', distanceKm: 9.3, picture: 'run26.jpg' },
-    { id: 27, userId: 2, date: '2023-06-23', distanceKm: 11.0, picture: 'run27.jpg' },
-    { id: 28, userId: 1, date: '2023-06-30', distanceKm: 5.9, picture: 'run28.jpg' },
+export const fakeRuns: Run[] = [
+    {
+        name: 'Anna Müller',
+        date: '2025-01-12',
+        distance_km: 5.2,
+        challenge_id: 'ch_2025_01',
+    },
+    {
+        name: 'Tom Schneider',
+        date: '2025-01-15',
+        distance_km: 10.0,
+        challenge_id: 'ch_2025_01',
+    },
+    {
+        name: 'Lisa Berger',
+        date: '2025-01-18',
+        distance_km: 3.7,
+        challenge_id: 'ch_2025_01',
+    },
+    {
+        name: 'Max Fischer',
+        date: '2025-01-20',
+        distance_km: 7.4,
+        challenge_id: 'ch_2025_01',
+    },
+];
+
+export const fakeRanks: Rank[] = [
+    {
+        name: 'Anna Müller',
+        total_km: 42.8,
+        lauf_tage: 9,
+        geburtsdatum: '1998-04-22',
+        geschlecht: 'w',
+    },
+    {
+        name: 'Tom Schneider',
+        total_km: 67.3,
+        lauf_tage: 12,
+        geburtsdatum: '1995-11-05',
+        geschlecht: 'm',
+    },
+    {
+        name: 'Lisa Berger',
+        total_km: 29.1,
+        lauf_tage: 7,
+        geburtsdatum: '2001-02-19',
+        geschlecht: 'w',
+    },
+    {
+        name: 'Max Fischer',
+        total_km: 53.4,
+        lauf_tage: 10,
+        geburtsdatum: '1997-07-12',
+        geschlecht: 'm',
+    },
 ];

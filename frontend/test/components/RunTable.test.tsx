@@ -1,21 +1,21 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 
-import { AppContext } from '../../src/components/AppContext';
+import { AppContext, type AppContextValues } from '../../src/components/AppContext';
 import { RunTable } from '../../src/components/table/RunTable';
-import { runs, users } from '../../src/data/mockData';
+import { fakeRanks, fakeRuns } from '../../src/data/mockData';
 import type { Run } from '../../src/data/types';
 
 describe('RunTable', () => {
-    const mockAppContext = {
-        runList: runs,
+    const mockAppContext: AppContextValues = {
+        runList: fakeRuns,
         addRun: vi.fn(),
-        userList: users,
+        rankList: fakeRanks,
         addUser: vi.fn(),
     };
 
     const renderWithContext = (runList?: Run[]) => {
-        const context = runList ? { ...mockAppContext, runList: runList } : mockAppContext;
+        const context: AppContextValues = runList ? { ...mockAppContext, runList: runList } : mockAppContext;
 
         return render(
             <AppContext.Provider value={context}>
@@ -24,7 +24,7 @@ describe('RunTable', () => {
         );
     };
 
-    it('rendert Tabellenüberschriften', () => {
+    it('column heads get generated', () => {
         renderWithContext();
 
         expect(screen.getByText('Teilnehmer')).toBeInTheDocument();
@@ -32,36 +32,38 @@ describe('RunTable', () => {
         expect(screen.getByText('Datum')).toBeInTheDocument();
     });
 
-    it('rendert so viele Zeilen wie Läufe vorhanden sind', () => {
+    it('renders all possible rows', () => {
         renderWithContext();
 
         const rows = screen.getAllByRole('row');
-        expect(rows.length).toBe(runs.length + 1);
+        expect(rows.length).toBe(fakeRuns.length + 1);
     });
 
-    it('sortiert die Läufe im UI nach Datum (neuste zuerst)', () => {
-        const runs: Run[] = [
-            { id: 1, userId: 1, date: '2023-01-01', distanceKm: 10, picture: '' },
-            { id: 2, userId: 2, date: '2023-05-01', distanceKm: 8, picture: '' },
-            { id: 3, userId: 3, date: '2022-12-10', distanceKm: 15, picture: '' },
-        ];
+    it('renders runs in descending date order', () => {
+        renderWithContext();
 
-        renderWithContext(runs);
-        const dateCells = screen.getAllByText(/2023-|2022-/);
+        const dateCells = screen.getAllByRole('cell', { name: /\d{4}-\d{2}-\d{2}/ });
+        const dates = dateCells.map((cell) => cell.textContent!);
 
-        expect(dateCells[0]).toHaveTextContent('2023-05-01');
-        expect(dateCells[1]).toHaveTextContent('2023-01-01');
-        expect(dateCells[2]).toHaveTextContent('2022-12-10');
+        const sortedDates = [...dates].sort((a, b) => b.localeCompare(a));
+        expect(dates).toEqual(sortedDates);
     });
 
-    it('rendert für jeden Lauf eine UserColumn', () => {});
+    it('renders distance with "km" suffix', () => {
+        renderWithContext();
 
-    it('zeigt für jeden Lauf die korrekte Distanz und das korrekte Datum an', () => {
-        const runs: Run[] = [{ id: 1, userId: 5, date: '2023-03-03', distanceKm: 13, picture: '' }];
+        fakeRuns.forEach((run) => {
+            expect(screen.getByText(`${run.distance_km} km`)).toBeInTheDocument();
+        });
+    });
 
-        renderWithContext(runs);
+    it('applies alternating row backgrounds', () => {
+        renderWithContext();
 
-        expect(screen.getByText('13 km')).toBeInTheDocument();
-        expect(screen.getByText('2023-03-03')).toBeInTheDocument();
+        const rows = screen.getAllByRole('row').slice(1);
+        rows.forEach((row, index) => {
+            const expectedClass = index % 2 === 0 ? 'bg-white' : 'bg-gray-50';
+            expect(row.className).toContain(expectedClass);
+        });
     });
 });

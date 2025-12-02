@@ -3,7 +3,7 @@ import type { FC, ReactNode } from 'react';
 import { useMemo } from 'react';
 
 import type { Run, User } from '../data/types.ts';
-import { getRuns, getUsers } from '../utils/api/get.ts';
+import { getRanks, getRuns } from '../utils/api/get.ts';
 import { postNewRun, postNewUser } from '../utils/api/post.ts';
 import { AppContext, type AppContextValues } from './AppContext.tsx';
 
@@ -29,9 +29,9 @@ export const AppContextProvider: FC<AppContextProviderProps> = ({ children }) =>
         },
     });
 
-    const { data: userList = [] } = useQuery({
-        queryKey: ['users'],
-        queryFn: getUsers,
+    const { data: rankList = [] } = useQuery({
+        queryKey: ['ranks'],
+        queryFn: getRanks,
         refetchInterval: 10000,
     });
 
@@ -48,10 +48,10 @@ export const AppContextProvider: FC<AppContextProviderProps> = ({ children }) =>
         () => ({
             runList,
             addRun: addRunMutation.mutate,
-            userList,
+            rankList,
             addUser: addUserMutation.mutate,
         }),
-        [runList, addRunMutation.mutate, userList, addUserMutation.mutate],
+        [runList, addRunMutation.mutate, rankList, addUserMutation.mutate],
     );
 
     return <AppContext.Provider value={appContextValues}>{children}</AppContext.Provider>;

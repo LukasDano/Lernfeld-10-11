@@ -1,25 +1,25 @@
-import type { Run, User } from '../../data/types.ts';
+import type { Rank, Run } from '../../data/types.ts';
 import { sendErrorMessage } from '../notifications.ts';
 
-const backendUrl = 'http://localhost:8000/';
+const realBackend = 'https://jugger-laufchallenge.de/api/api.php?action=';
 
-export const getUsers = async (): Promise<User[]> => {
-    const url = backendUrl + 'user.php';
+export const getRuns = async (): Promise<Run[]> => {
+    const url = realBackend + 'getNeuesteLauefe';
 
     const response = await fetch(url, { method: 'GET' });
 
-    if (response.status !== 200) sendErrorMessage('Error', 'Fehler beim laden der User');
+    if (response.status !== 200) sendErrorMessage('Error', 'Fehler beim laden der Läufe');
 
     const json = await response.json();
     return json;
 };
 
-export const getRuns = async (): Promise<Run[]> => {
-    const url = backendUrl + 'runs.php';
+export const getRanks = async (): Promise<Rank[]> => {
+    const url = realBackend + 'getRangliste';
 
     const response = await fetch(url, { method: 'GET' });
 
-    if (response.status !== 200) sendErrorMessage('Error', 'Fehler beim laden der Läufe');
+    if (response.status !== 200) sendErrorMessage('Error', 'Fehler beim laden des Rankings');
 
     const json = await response.json();
     return json;
