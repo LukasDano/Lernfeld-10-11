@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 type Rang = {
     name: string;
@@ -6,19 +6,19 @@ type Rang = {
     lauf_tage: number;
     birthdate: number;
     gender: number;
-}
+};
 
 function Rangliste() {
     const [rangliste, setRangliste] = useState<Rang[]>([]);
 
     useEffect(() => {
-        fetch("https://deine-domain.de/api.php?action=getRangliste")
-            .then(res => res.json())
-            .then(data => {
+        fetch('https://deine-domain.de/api.php?action=getRangliste')
+            .then((res) => res.json())
+            .then((data) => {
                 console.log(data);
                 setRangliste(data);
             })
-            .catch(err => console.error(err));
+            .catch((err) => console.error(err));
     }, []);
 
     return (

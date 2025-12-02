@@ -12,5 +12,5 @@ export type Run = {
     date: string; //TODO: change to Date
     distanceKm: number;
     picture: string;
-    createdAt: string; //TODO: change to Date
+    // createdAt: string; //TODO: change to Date
 };
