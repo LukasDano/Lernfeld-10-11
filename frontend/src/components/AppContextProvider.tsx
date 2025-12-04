@@ -1,10 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import type { FC, ReactNode } from 'react';
+import {type FC, type ReactNode, useState} from 'react';
 import { useMemo } from 'react';
 
-import type { Run, User } from '../data/types.ts';
+import type { Run} from '../data/types.ts';
 import { getRanks, getRuns } from '../utils/api/get.ts';
-import { postNewRun, postNewUser } from '../utils/api/post.ts';
+import { postNewRun } from '../utils/api/post.ts';
 import { AppContext, type AppContextValues } from './AppContext.tsx';
 
 type AppContextProviderProps = {
@@ -12,12 +12,15 @@ type AppContextProviderProps = {
 };
 
 export const AppContextProvider: FC<AppContextProviderProps> = ({ children }) => {
+    const [userId, setUserId] = useState<number>(0);
+
     const queryClient = useQueryClient();
 
     const { data: runList = [] } = useQuery({
         queryKey: ['runs'],
         queryFn: getRuns,
         refetchInterval: 10000,
+        enabled: userId !== 0,
     });
 
     const addRunMutation = useMutation({
@@ -33,15 +36,7 @@ export const AppContextProvider: FC<AppContextProviderProps> = ({ children }) =>
         queryKey: ['ranks'],
         queryFn: getRanks,
         refetchInterval: 10000,
-    });
-
-    const addUserMutation = useMutation({
-        mutationFn: async (newUser: User) => {
-            return await postNewUser(newUser);
-        },
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['users'] });
-        },
+        enabled: userId !== 0,
     });
 
     const appContextValues = useMemo<AppContextValues>(
@@ -49,9 +44,10 @@ export const AppContextProvider: FC<AppContextProviderProps> = ({ children }) =>
             runList,
             addRun: addRunMutation.mutate,
             rankList,
-            addUser: addUserMutation.mutate,
+            userId: userId,
+            setUserId: setUserId
         }),
-        [runList, addRunMutation.mutate, rankList, addUserMutation.mutate],
+        [runList, addRunMutation.mutate, rankList],
     );
 
     return <AppContext.Provider value={appContextValues}>{children}</AppContext.Provider>;

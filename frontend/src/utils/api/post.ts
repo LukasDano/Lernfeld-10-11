@@ -1,6 +1,7 @@
 import { toast } from 'sonner';
 
-import type { Run, User } from '../../data/types.ts';
+import type {Run, UserData} from '../../data/types.ts';
+import {realBackend} from "./get.ts";
 
 export const postNewRun = async (newRun: Run) => {
     console.log('New Run: ', newRun);
@@ -16,16 +17,46 @@ export const postNewRun = async (newRun: Run) => {
     });
 };
 
-export const postNewUser = async (newUser: User) => {
-    console.log('New Run: ', newUser);
+export const postCreateUser = async (newUser: UserData) => {
+    const bodyData = {
+        name: newUser.userName,
+        password: newUser.password,
+        geburtsdatum: newUser.birthDate,
+        geschlecht: newUser.gender
+    };
 
-    const promise = () => new Promise((resolve) => setTimeout(() => resolve({ name: 'Sonner' }), 2000));
+    const url = realBackend + "register";
 
-    toast.promise(promise, {
-        loading: 'Loading...',
-        success: () => {
-            return 'Neuer Benutzer  wurde hinzugefügt';
+    const response = await fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
         },
-        error: 'Error',
+        body: JSON.stringify(bodyData),
     });
+
+    const data = await response.json();
+    console.log(data);
+    return data;
+};
+
+export const postLogIn = async (userName: string, password: string) => {
+    const bodyData = {
+        name: userName,
+        password: password,
+    };
+
+    const url = realBackend + "login";
+
+    const response = await fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(bodyData),
+    });
+
+    const data = await response.json();
+    console.log(data);
+    return data;
 };
