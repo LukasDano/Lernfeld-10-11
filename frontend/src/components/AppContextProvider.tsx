@@ -1,8 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import {type FC, type ReactNode, useState} from 'react';
+import { type FC, type ReactNode, useState } from 'react';
 import { useMemo } from 'react';
 
-import type { Run} from '../data/types.ts';
+import type { Run } from '../data/types.ts';
 import { getRanks, getRuns } from '../utils/api/get.ts';
 import { postNewRun } from '../utils/api/post.ts';
 import { AppContext, type AppContextValues } from './AppContext.tsx';
@@ -45,9 +45,9 @@ export const AppContextProvider: FC<AppContextProviderProps> = ({ children }) =>
             addRun: addRunMutation.mutate,
             rankList,
             userId: userId,
-            setUserId: setUserId
+            setUserId: setUserId,
         }),
-        [runList, addRunMutation.mutate, rankList],
+        [runList, addRunMutation.mutate, rankList, userId, setUserId],
     );
 
     return <AppContext.Provider value={appContextValues}>{children}</AppContext.Provider>;

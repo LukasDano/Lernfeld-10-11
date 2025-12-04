@@ -1,32 +1,33 @@
-import {type FC, useContext, useState} from "react";
-import type {UserData} from "../../data/types.ts";
-import {postCreateUser, postLogIn} from "../../utils/api/post.ts";
-import {AppContext} from "../AppContext.tsx";
+import { type FC, useContext, useState } from 'react';
 
-type RegisterOrLogin = "register" | "login";
+import type { UserData } from '../../data/types.ts';
+import { postCreateUser, postLogIn } from '../../utils/api/post.ts';
+import { AppContext } from '../AppContext.tsx';
+
+type RegisterOrLogin = 'register' | 'login';
 
 export const LoginForm = () => {
-    const {setUserId} = useContext(AppContext);
+    const { setUserId } = useContext(AppContext);
 
-    const [state, setState] = useState<RegisterOrLogin>("login");
+    const [state, setState] = useState<RegisterOrLogin>('login');
     const [user, setUser] = useState<UserData>({
-        userName: "Anna Mueller",
-        password: "test123",
-        birthDate: "2008-05-12",
-        gender: "f"
+        userName: 'Anna Mueller',
+        password: 'test123',
+        birthDate: '2008-05-12',
+        gender: 'f',
     });
 
     const updateUser = (field: keyof UserData, val: string) => {
-        setUser(prev => ({
+        setUser((prev) => ({
             ...prev,
-            [field]: val
+            [field]: val,
         }));
     };
 
     const handleRegister = () => {
-        if (state === "login") setState("register");
+        if (state === 'login') setState('register');
         else {
-            postCreateUser(user)
+            postCreateUser(user);
             // .then(() =>
             //     postLogIn(user.userName, user.password).then(() => {
             //         setUserId(Math.random());
@@ -46,54 +47,52 @@ export const LoginForm = () => {
                 <h2 className="text-2xl font-semibold text-center mb-6">Login</h2>
 
                 <form className="grid gap-4">
-
                     <LoginFormInput
-                        lable={"Benutzer"}
+                        lable={'Benutzer'}
                         value={user.userName}
-                        onValueChange={(val) => updateUser("userName", val)}
+                        onValueChange={(val) => updateUser('userName', val)}
                     />
 
                     <LoginFormInput
-                        lable={"Passwort"}
+                        lable={'Passwort'}
                         value={user.password}
-                        onValueChange={(val) => updateUser("password", val)}
+                        onValueChange={(val) => updateUser('password', val)}
                     />
 
-                    {state === "register" && (
+                    {state === 'register' && (
                         <>
                             <LoginFormInput
-                                lable={"Geburtstag"}
-                                type={"date"}
+                                lable={'Geburtstag'}
+                                type={'date'}
                                 value={user.birthDate}
-                                onValueChange={(val) => updateUser("birthDate", val)}
+                                onValueChange={(val) => updateUser('birthDate', val)}
                             />
 
                             <LoginFormInput
-                                lable={"Geschlecht"}
+                                lable={'Geschlecht'}
                                 value={user.gender}
-                                onValueChange={(val) => updateUser("gender", val)}
+                                onValueChange={(val) => updateUser('gender', val)}
                             />
                         </>
                     )}
 
                     <button
-                        type={"button"}
+                        type={'button'}
                         onClick={handleRegister}
                         className="w-full bg-zinc-500 text-white rounded-xl py-2 font-medium hover:bg-zinc-600 transition"
                     >
                         Registrieren
                     </button>
 
-                    {state === "login" && (
+                    {state === 'login' && (
                         <button
-                            type={"button"}
+                            type={'button'}
                             onClick={logUserIn}
                             className="w-full bg-blue-600 text-white rounded-xl py-2 font-medium hover:bg-blue-700 transition"
                         >
                             Login
                         </button>
                     )}
-
                 </form>
             </div>
         </div>
@@ -107,12 +106,12 @@ type LoginFormInputProps = {
     type?: string;
 };
 
-const LoginFormInput: FC<LoginFormInputProps> = ({lable, type, value, onValueChange}) => {
+const LoginFormInput: FC<LoginFormInputProps> = ({ lable, type, value, onValueChange }) => {
     return (
         <>
             <label className="block mb-1 text-sm font-medium">{lable}</label>
             <input
-                type={type || ""}
+                type={type || ''}
                 value={value}
                 onChange={(e) => onValueChange(e.target.value)}
                 placeholder={`${lable} ...`}

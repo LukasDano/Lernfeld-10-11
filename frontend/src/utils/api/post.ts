@@ -1,7 +1,7 @@
 import { toast } from 'sonner';
 
-import type {Run, UserData} from '../../data/types.ts';
-import {realBackend} from "./get.ts";
+import type { Run, UserData } from '../../data/types.ts';
+import { realBackend } from './get.ts';
 
 export const postNewRun = async (newRun: Run) => {
     console.log('New Run: ', newRun);
@@ -22,15 +22,15 @@ export const postCreateUser = async (newUser: UserData) => {
         name: newUser.userName,
         password: newUser.password,
         geburtsdatum: newUser.birthDate,
-        geschlecht: newUser.gender
+        geschlecht: newUser.gender,
     };
 
-    const url = realBackend + "register";
+    const url = realBackend + 'register';
 
     const response = await fetch(url, {
-        method: "POST",
+        method: 'POST',
         headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify(bodyData),
     });
@@ -46,12 +46,12 @@ export const postLogIn = async (userName: string, password: string) => {
         password: password,
     };
 
-    const url = realBackend + "login";
+    const url = realBackend + 'login';
 
     const response = await fetch(url, {
-        method: "POST",
+        method: 'POST',
         headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify(bodyData),
     });
