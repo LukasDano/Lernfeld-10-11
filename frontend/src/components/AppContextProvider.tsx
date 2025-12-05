@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { type FC, type ReactNode, useState } from 'react';
 import { useMemo } from 'react';
 
-import type { Run } from '../data/types.ts';
+import type { NewRun } from '../data/types.ts';
 import { getRanks, getRuns } from '../utils/api/get.ts';
 import { postNewRun } from '../utils/api/post.ts';
 import { getStorageValue, setStorageValue } from '../utils/storageProvider.ts';
@@ -30,7 +30,7 @@ export const AppContextProvider: FC<AppContextProviderProps> = ({ children }) =>
     });
 
     const addRunMutation = useMutation({
-        mutationFn: async (newRun: Run) => {
+        mutationFn: async (newRun: NewRun) => {
             return await postNewRun(newRun);
         },
         onSuccess: () => {
