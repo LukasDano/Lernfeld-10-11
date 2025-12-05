@@ -1,3 +1,10 @@
+export type UserData = {
+    userName: string;
+    password: string;
+    birthDate: string;
+    gender: string;
+};
+
 export type User = {
     id: number;
     name: string;

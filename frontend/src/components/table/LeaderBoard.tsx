@@ -1,16 +1,10 @@
-import { useContext, useMemo } from 'react';
+import { useContext } from 'react';
 import 'tippy.js/dist/tippy.css';
 
 import { AppContext } from '../AppContext.tsx';
 
 export const LeaderBoard = () => {
     const { rankList } = useContext(AppContext);
-
-    const sortedRanks = useMemo(() => {
-        const copy = [...rankList];
-
-        return copy.sort((a, b) => a.total_km - b.total_km);
-    }, [rankList]);
 
     return (
         <div className="max-w-3xl mx-auto mt-8">
@@ -34,7 +28,7 @@ export const LeaderBoard = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {sortedRanks.map((user, index) => (
+                        {rankList.map((user, index) => (
                             <tr
                                 key={index}
                                 className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-gray-100`}

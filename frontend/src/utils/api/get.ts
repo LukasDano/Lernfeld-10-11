@@ -1,7 +1,7 @@
 import type { Rank, Run } from '../../data/types.ts';
 import { sendErrorMessage } from '../notifications.ts';
 
-const realBackend = 'https://jugger-laufchallenge.de/api/api.php?action=';
+export const realBackend = 'https://jugger-laufchallenge.de/api/api.php?action=';
 
 export const getRuns = async (): Promise<Run[]> => {
     const url = realBackend + 'getNeuesteLauefe';

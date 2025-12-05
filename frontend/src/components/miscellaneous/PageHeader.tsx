@@ -1,12 +1,22 @@
 import Tippy from '@tippyjs/react';
-import type { FC, ReactNode } from 'react';
+import { type FC, type ReactNode, useContext } from 'react';
 import { IoIosAdd } from 'react-icons/io';
+import { LuLogOut } from 'react-icons/lu';
+
+import { AppContext } from '../AppContext.tsx';
 
 type HeaderProps = {
     openAddDataModal: () => void;
 };
 
 export const PageHeader: FC<HeaderProps> = ({ openAddDataModal }) => {
+    const { setUserId } = useContext(AppContext);
+
+    const logOut = () => {
+        setUserId(0);
+        window.location.reload();
+    };
+
     return (
         <nav
             className="p-4 bg-gray-100 border-b border-gray-300
@@ -23,6 +33,7 @@ export const PageHeader: FC<HeaderProps> = ({ openAddDataModal }) => {
                     tooltip={'Erfasse einen neuen Lauf'}
                     onClick={openAddDataModal}
                 />
+                <HeaderButton icon={<LuLogOut className={'w-6 h-6'} />} tooltip={'Logout'} onClick={logOut} />
             </div>
         </nav>
     );

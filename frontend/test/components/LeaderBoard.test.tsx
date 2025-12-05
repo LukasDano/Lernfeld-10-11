@@ -11,7 +11,8 @@ describe('LeaderBoard', () => {
         runList: fakeRuns,
         addRun: vi.fn(),
         rankList: fakeRanks,
-        addUser: vi.fn(),
+        userId: 0,
+        setUserId: vi.fn(),
     };
 
     const renderWithContext = (rankList?: Rank[]) => {
@@ -38,18 +39,6 @@ describe('LeaderBoard', () => {
 
         const rows = screen.getAllByRole('row').slice(1);
         expect(rows.length).toBe(fakeRanks.length);
-    });
-
-    it('sorts users by total_km in ascending order', () => {
-        renderWithContext();
-
-        const totalKmCells = screen.getAllByText(/\d+/).filter((cell) => {
-            return fakeRanks.some((rank) => rank.total_km.toString() === cell.textContent);
-        });
-
-        const kmValues = totalKmCells.map((cell) => Number(cell.textContent));
-        const sortedKmValues = [...kmValues].sort((a, b) => a - b);
-        expect(kmValues).toEqual(sortedKmValues);
     });
 
     it('displays correct ranking numbers', () => {
