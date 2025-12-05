@@ -3,6 +3,7 @@ import { type FC, useContext, useState } from 'react';
 import type { UserData } from '../../data/types.ts';
 import { postCreateUser, postLogIn } from '../../utils/api/post.ts';
 import { AppContext } from '../AppContext.tsx';
+import { DateFormInput } from '../miscellaneous/DateFormInput.tsx';
 
 type RegisterOrLogin = 'register' | 'login';
 
@@ -61,11 +62,10 @@ export const LoginForm = () => {
 
                     {state === 'register' && (
                         <>
-                            <LoginFormInput
-                                lable={'Geburtstag'}
-                                type={'date'}
+                            <DateFormInput
+                                label={'Datum'}
                                 value={user.birthDate}
-                                onValueChange={(val) => updateUser('birthDate', val)}
+                                onChange={(val) => updateUser('birthDate', val)}
                             />
 
                             <LoginFormSelect

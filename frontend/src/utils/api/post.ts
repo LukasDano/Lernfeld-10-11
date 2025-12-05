@@ -1,21 +1,27 @@
-import { toast } from 'sonner';
-
-import type { Run, UserData } from '../../data/types.ts';
+import type { NewRun, UserData } from '../../data/types.ts';
 import { sendErrorMessage, sendSuccessMessage } from '../notifications.ts';
 import { realBackend } from './get.ts';
 
-export const postNewRun = async (newRun: Run) => {
-    console.log('New Run: ', newRun);
+export const postNewRun = async (newRun: NewRun) => {
+    const bodyData = {
+        user_id: newRun.userId,
+        date: newRun.date,
+        distance_km: newRun.distanceKm,
+        challenge_id: newRun.challengeId,
+    };
 
-    const promise = () => new Promise((resolve) => setTimeout(() => resolve({ name: 'Sonner' }), 2000));
+    const url = realBackend + 'addRun';
 
-    toast.promise(promise, {
-        loading: 'Loading...',
-        success: () => {
-            return 'Neuer Lauf wurde hinzugefügt';
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
         },
-        error: 'Error',
+        body: JSON.stringify(bodyData),
     });
+
+    const data = await response.json();
+    return data;
 };
 
 type RegisterResult = {
