@@ -17,6 +17,13 @@ npm i
 npm run dev
 ```
 
+## Aktuelle version bauen
+```bash
+cd frontend
+npm i
+npm run build
+```
+
 ## Start local PHP-Backend
 ```bash
 php -S localhost:8000
