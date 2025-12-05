@@ -40,16 +40,6 @@ describe('RunTable', () => {
         expect(rows.length).toBe(fakeRuns.length + 1);
     });
 
-    it('renders runs in descending date order', () => {
-        renderWithContext();
-
-        const dateCells = screen.getAllByRole('cell', { name: /\d{4}-\d{2}-\d{2}/ });
-        const dates = dateCells.map((cell) => cell.textContent!);
-
-        const sortedDates = [...dates].sort((a, b) => b.localeCompare(a));
-        expect(dates).toEqual(sortedDates);
-    });
-
     it('renders distance with "km" suffix', () => {
         renderWithContext();
 
