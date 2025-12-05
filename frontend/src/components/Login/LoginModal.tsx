@@ -2,9 +2,9 @@ import { type FC, useContext, useState } from 'react';
 
 import type { UserData } from '../../data/types.ts';
 import { postCreateUser, postLogIn } from '../../utils/api/post.ts';
+import { getTodayAsIsoString } from '../../utils/date.ts';
 import { AppContext } from '../AppContext.tsx';
 import { DateFormInput } from '../miscellaneous/DateFormInput.tsx';
-import {getTodayAsIsoString} from "../../utils/date.ts";
 
 type RegisterOrLogin = 'register' | 'login';
 

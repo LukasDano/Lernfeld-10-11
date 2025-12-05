@@ -6,7 +6,7 @@ export const generateDateFromISOString = (date: string): Date => {
     return new Date(date + 'T00:00:00.000Z');
 };
 
-export const isTodayOrYesterday = (date: Date): boolean =>  {
+export const isTodayOrYesterday = (date: Date): boolean => {
     const today = new Date();
     const yesterday = new Date(today);
     yesterday.setDate(yesterday.getDate() - 1);

@@ -2,10 +2,10 @@ import { useContext, useState } from 'react';
 import type { FC } from 'react';
 
 import type { NewRun } from '../../data/types.ts';
+import { generateDateFromISOString, getTodayAsIsoString, isTodayOrYesterday } from '../../utils/date.ts';
 import { sendWarnMessage } from '../../utils/notifications.ts';
 import { AppContext } from '../AppContext.tsx';
 import { DateFormInput } from './DateFormInput.tsx';
-import {generateDateFromISOString, getTodayAsIsoString, isTodayOrYesterday} from "../../utils/date.ts";
 
 type RunCreateModalProps = {
     isOpen: boolean;
@@ -30,18 +30,18 @@ export const AddDataModal: FC<RunCreateModalProps> = ({ isOpen, onClose, onSave 
         }
 
         if (parseFloat(distanceKm) < 1.5) {
-            sendWarnMessage("Es müssen mindestens 1,5 km erfasst werden.");
+            sendWarnMessage('Es müssen mindestens 1,5 km erfasst werden.');
             allowed = false;
         }
 
         const dateAsDate = generateDateFromISOString(date);
 
         if (!isTodayOrYesterday(dateAsDate)) {
-            sendWarnMessage("Bitte nur werte für heute oder gestern erfassen.");
+            sendWarnMessage('Bitte nur werte für heute oder gestern erfassen.');
             allowed = false;
         }
 
-        return allowed
+        return allowed;
     };
 
     const handleSubmit = () => {
@@ -70,11 +70,7 @@ export const AddDataModal: FC<RunCreateModalProps> = ({ isOpen, onClose, onSave 
                 <h2 className="text-xl font-semibold mb-4">Neuen Lauf erfassen</h2>
 
                 <div className="space-y-4">
-                    <DateFormInput
-                        label={'Datum'}
-                        value={date}
-                        onChange={(val) => setDate(val)}
-                    />
+                    <DateFormInput label={'Datum'} value={date} onChange={(val) => setDate(val)} />
 
                     <label className="block text-sm font-medium mb-1">Strecke (km)</label>
                     <input
