@@ -5,6 +5,7 @@ import { useMemo } from 'react';
 import type { Run } from '../data/types.ts';
 import { getRanks, getRuns } from '../utils/api/get.ts';
 import { postNewRun } from '../utils/api/post.ts';
+import { getStorageValue, setStorageValue } from '../utils/storageProvider.ts';
 import { AppContext, type AppContextValues } from './AppContext.tsx';
 
 type AppContextProviderProps = {
@@ -12,7 +13,12 @@ type AppContextProviderProps = {
 };
 
 export const AppContextProvider: FC<AppContextProviderProps> = ({ children }) => {
-    const [userId, setUserId] = useState<number>(0);
+    const [userId, setUserId] = useState<number>(getStorageValue('userId'));
+
+    const updateUserId = (num: number): void => {
+        setStorageValue('userId', num);
+        setUserId(num);
+    };
 
     const queryClient = useQueryClient();
 
@@ -45,9 +51,9 @@ export const AppContextProvider: FC<AppContextProviderProps> = ({ children }) =>
             addRun: addRunMutation.mutate,
             rankList,
             userId: userId,
-            setUserId: setUserId,
+            setUserId: updateUserId,
         }),
-        [runList, addRunMutation.mutate, rankList, userId, setUserId],
+        [runList, addRunMutation.mutate, rankList, userId],
     );
 
     return <AppContext.Provider value={appContextValues}>{children}</AppContext.Provider>;

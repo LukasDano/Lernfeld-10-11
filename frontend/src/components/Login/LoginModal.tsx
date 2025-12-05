@@ -11,10 +11,10 @@ export const LoginForm = () => {
 
     const [state, setState] = useState<RegisterOrLogin>('login');
     const [user, setUser] = useState<UserData>({
-        userName: 'Anna Mueller',
-        password: 'test123',
-        birthDate: '2008-05-12',
-        gender: 'f',
+        userName: '',
+        password: '',
+        birthDate: '',
+        gender: 'M', // Als Default Wert (weil die Option zuerst angezeigt wird)
     });
 
     const updateUser = (field: keyof UserData, val: string) => {
@@ -26,18 +26,18 @@ export const LoginForm = () => {
 
     const handleRegister = () => {
         if (state === 'login') setState('register');
-        else {
-            postCreateUser(user);
-            // .then(() =>
-            //     postLogIn(user.userName, user.password).then(() => {
-            //         setUserId(Math.random());
-            //     }))
-        }
+        else
+            postCreateUser(user).then((res) => {
+                if (res.success)
+                    postLogIn(user.userName, user.password).then((res) => {
+                        if (res.success) setUserId(res.user.id);
+                    });
+            });
     };
 
     const logUserIn = () => {
-        postLogIn(user.userName, user.password).then(() => {
-            setUserId(Math.random());
+        postLogIn(user.userName, user.password).then((res) => {
+            if (res.success) setUserId(res.user.id);
         });
     };
 
@@ -68,9 +68,17 @@ export const LoginForm = () => {
                                 onValueChange={(val) => updateUser('birthDate', val)}
                             />
 
-                            <LoginFormInput
-                                lable={'Geschlecht'}
-                                value={user.gender}
+                            <LoginFormSelect
+                                label={'Geschlecht'}
+                                value={'M'}
+                                options={[
+                                    { key: 'Männlich', value: 'M' },
+                                    { key: 'Weiblich', value: 'W' },
+                                    {
+                                        key: 'Divers',
+                                        value: 'D',
+                                    },
+                                ]}
                                 onValueChange={(val) => updateUser('gender', val)}
                             />
                         </>
@@ -104,9 +112,10 @@ type LoginFormInputProps = {
     onValueChange: (e: string) => void;
     lable: string;
     type?: string;
+    placeholder?: string;
 };
 
-const LoginFormInput: FC<LoginFormInputProps> = ({ lable, type, value, onValueChange }) => {
+const LoginFormInput: FC<LoginFormInputProps> = ({ lable, type, value, onValueChange, placeholder }) => {
     return (
         <>
             <label className="block mb-1 text-sm font-medium">{lable}</label>
@@ -114,10 +123,44 @@ const LoginFormInput: FC<LoginFormInputProps> = ({ lable, type, value, onValueCh
                 type={type || ''}
                 value={value}
                 onChange={(e) => onValueChange(e.target.value)}
-                placeholder={`${lable} ...`}
+                placeholder={placeholder || `${lable} ...`}
                 required
                 className="w-full border rounded-xl px-3 py-2"
             />
+        </>
+    );
+};
+
+type LoginFormSelectProps = {
+    label: string;
+    value: string;
+    onValueChange: (value: string) => void;
+    options: { key: string; value: string }[];
+    placeholder?: string;
+};
+
+const LoginFormSelect: FC<LoginFormSelectProps> = ({ label, value, onValueChange, options, placeholder }) => {
+    return (
+        <>
+            <label className="block mb-1 text-sm font-medium">{label}</label>
+            <select
+                value={value}
+                onChange={(e) => onValueChange(e.target.value)}
+                required
+                className="w-full border rounded-xl px-3 py-2 bg-white"
+            >
+                {placeholder && (
+                    <option value="" disabled>
+                        {placeholder}
+                    </option>
+                )}
+
+                {options.map((opt) => (
+                    <option key={opt.value} value={opt.value}>
+                        {opt.key}
+                    </option>
+                ))}
+            </select>
         </>
     );
 };

@@ -4,7 +4,7 @@ import type { FC } from 'react';
 type RunCreateModalProps = {
     isOpen: boolean;
     onClose: () => void;
-    onSave: (run: any) => void; //eslint-disable  @typescript-eslint/no-explicit-any
+    onSave: (run: any) => void;
 };
 
 export const AddDataModal: FC<RunCreateModalProps> = ({ isOpen, onClose, onSave }) => {

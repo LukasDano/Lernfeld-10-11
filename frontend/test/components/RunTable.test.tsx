@@ -11,7 +11,8 @@ describe('RunTable', () => {
         runList: fakeRuns,
         addRun: vi.fn(),
         rankList: fakeRanks,
-        addUser: vi.fn(),
+        userId: 0,
+        setUserId: vi.fn(),
     };
 
     const renderWithContext = (runList?: Run[]) => {
