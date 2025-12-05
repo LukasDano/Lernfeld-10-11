@@ -5,6 +5,7 @@ import type { NewRun } from '../../data/types.ts';
 import { sendWarnMessage } from '../../utils/notifications.ts';
 import { AppContext } from '../AppContext.tsx';
 import { DateFormInput } from './DateFormInput.tsx';
+import {generateDateFromISOString, getTodayAsIsoString, isTodayOrYesterday} from "../../utils/date.ts";
 
 type RunCreateModalProps = {
     isOpen: boolean;
@@ -15,16 +16,36 @@ type RunCreateModalProps = {
 export const AddDataModal: FC<RunCreateModalProps> = ({ isOpen, onClose, onSave }) => {
     const { userId } = useContext(AppContext);
 
-    const [date, setDate] = useState<string>('');
-    const [distanceKm, setDistanceKm] = useState<string>('');
+    const [date, setDate] = useState<string>(getTodayAsIsoString());
+    const [distanceKm, setDistanceKm] = useState<string>('1,5');
 
     if (!isOpen) return null;
 
-    const handleSubmit = () => {
+    const checkValues = (): boolean => {
+        let allowed = true;
+
         if (!date || distanceKm === '') {
             sendWarnMessage('Bitte alle Felder korrekt ausfüllen.');
-            return;
+            allowed = false;
         }
+
+        if (parseFloat(distanceKm) < 1.5) {
+            sendWarnMessage("Es müssen mindestens 1,5 km erfasst werden.");
+            allowed = false;
+        }
+
+        const dateAsDate = generateDateFromISOString(date);
+
+        if (!isTodayOrYesterday(dateAsDate)) {
+            sendWarnMessage("Bitte nur werte für heute oder gestern erfassen.");
+            allowed = false;
+        }
+
+        return allowed
+    };
+
+    const handleSubmit = () => {
+        if (!checkValues()) return;
 
         const newRun: NewRun = {
             userId: userId,
@@ -60,6 +81,7 @@ export const AddDataModal: FC<RunCreateModalProps> = ({ isOpen, onClose, onSave 
                         type="number"
                         className="w-full border rounded-lg px-3 py-2"
                         value={distanceKm}
+                        min={1.5}
                         placeholder={'0'}
                         onChange={(evt) => setDistanceKm(evt.target.value)}
                     />

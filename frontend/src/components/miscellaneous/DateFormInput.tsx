@@ -16,8 +16,6 @@ export const DateFormInput: FC<DateFormInputProps> = ({ label, value, onChange }
         } else onChange(evt.target.value);
     };
 
-    const initialValue = value === "" ? new Date().toISOString().split('T')[0] : value;
-
     return (
         <div>
             <label className="block text-sm font-medium mb-1" htmlFor={htmlId}>
@@ -27,7 +25,7 @@ export const DateFormInput: FC<DateFormInputProps> = ({ label, value, onChange }
                 id={htmlId}
                 type="date"
                 className="w-full border rounded-lg px-3 py-2"
-                value={initialValue}
+                value={value}
                 onChange={(evt) => handleChange(evt)}
             />
         </div>

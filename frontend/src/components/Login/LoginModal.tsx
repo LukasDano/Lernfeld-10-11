@@ -4,6 +4,7 @@ import type { UserData } from '../../data/types.ts';
 import { postCreateUser, postLogIn } from '../../utils/api/post.ts';
 import { AppContext } from '../AppContext.tsx';
 import { DateFormInput } from '../miscellaneous/DateFormInput.tsx';
+import {getTodayAsIsoString} from "../../utils/date.ts";
 
 type RegisterOrLogin = 'register' | 'login';
 
@@ -64,7 +65,7 @@ export const LoginForm = () => {
                         <>
                             <DateFormInput
                                 label={'Datum'}
-                                value={user.birthDate}
+                                value={user.birthDate || getTodayAsIsoString()}
                                 onChange={(val) => updateUser('birthDate', val)}
                             />
 
