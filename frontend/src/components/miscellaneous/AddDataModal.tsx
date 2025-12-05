@@ -49,7 +49,11 @@ export const AddDataModal: FC<RunCreateModalProps> = ({ isOpen, onClose, onSave 
                 <h2 className="text-xl font-semibold mb-4">Neuen Lauf erfassen</h2>
 
                 <div className="space-y-4">
-                    <DateFormInput label={'Datum'} value={''} onChange={(val) => setDate(val)} />
+                    <DateFormInput
+                        label={'Datum'}
+                        value={date}
+                        onChange={(val) => setDate(val)}
+                    />
 
                     <label className="block text-sm font-medium mb-1">Strecke (km)</label>
                     <input
