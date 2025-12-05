@@ -37,7 +37,7 @@ export const AddDataModal: FC<RunCreateModalProps> = ({ isOpen, onClose, onSave 
         const dateAsDate = generateDateFromISOString(date);
 
         if (!isTodayOrYesterday(dateAsDate)) {
-            sendWarnMessage('Bitte nur werte für heute oder gestern erfassen.');
+            sendWarnMessage('Bitte nur Werte für heute oder gestern erfassen.');
             allowed = false;
         }
 
