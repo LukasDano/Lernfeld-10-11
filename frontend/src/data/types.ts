@@ -27,3 +27,10 @@ export type Rank = {
     geburtsdatum: string;
     geschlecht: string;
 };
+
+export type NewRun = {
+    userId: number;
+    date: string;
+    distanceKm: number;
+    challengeId: number;
+};
