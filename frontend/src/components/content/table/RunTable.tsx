@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import 'tippy.js/dist/tippy.css';
 
-import { AppContext } from '../AppContext.tsx';
+import { AppContext } from '../../AppContext.tsx';
 import { TableHeadline } from './TableHeadline.tsx';
 
 export const RunTable = () => {

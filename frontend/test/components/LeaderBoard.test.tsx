@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 
 import { AppContext, type AppContextValues } from '../../src/components/AppContext';
-import { LeaderBoard } from '../../src/components/table/LeaderBoard.tsx';
+import { LeaderBoard } from '../../src/components/content/table/LeaderBoard.tsx';
 import { fakeRanks, fakeRuns } from '../../src/data/mockData';
 import type { Rank } from '../../src/data/types';
 

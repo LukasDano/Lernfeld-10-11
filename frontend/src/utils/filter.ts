@@ -1,4 +1,4 @@
-import type { AcceptedFilterOptions } from '../components/miscellaneous/FilterModal.tsx';
+import type { AcceptedFilterOptions } from '../components/modal/FilterModal.tsx';
 import type { SelectOption } from '../components/miscellaneous/MultipleValueSelector.tsx';
 import type { Rank } from '../data/types.ts';
 

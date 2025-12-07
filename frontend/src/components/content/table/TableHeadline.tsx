@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { FaFilter } from 'react-icons/fa';
 
-import { BaseButton } from '../miscellaneous/BaseButton.tsx';
+import { BaseButton } from '../../miscellaneous/BaseButton.tsx';
 
 type TableHeadlineProps = {
     tableName: string;

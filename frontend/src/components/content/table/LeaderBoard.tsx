@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from 'react';
 import 'tippy.js/dist/tippy.css';
 
-import type { Rank } from '../../data/types.ts';
-import { defaultFilter, matchesFilters } from '../../utils/filter.ts';
-import { AppContext } from '../AppContext.tsx';
-import { type AcceptedFilterOptions, FilterModal } from '../miscellaneous/FilterModal.tsx';
+import type { Rank } from '../../../data/types.ts';
+import { defaultFilter, matchesFilters } from '../../../utils/filter.ts';
+import { AppContext } from '../../AppContext.tsx';
+import { type AcceptedFilterOptions, FilterModal } from '../../modal/FilterModal.tsx';
 import { TableHeadline } from './TableHeadline.tsx';
 
 export const LeaderBoard = () => {

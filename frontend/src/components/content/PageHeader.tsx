@@ -3,7 +3,7 @@ import { IoIosAdd } from 'react-icons/io';
 import { LuLogOut } from 'react-icons/lu';
 
 import { AppContext } from '../AppContext.tsx';
-import { BaseButton } from './BaseButton.tsx';
+import { BaseButton } from '../miscellaneous/BaseButton.tsx';
 
 type HeaderProps = {
     openAddDataModal: () => void;

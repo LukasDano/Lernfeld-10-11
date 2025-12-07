@@ -2,11 +2,11 @@ import { useContext, useState } from 'react';
 import { Toaster } from 'sonner';
 
 import { AppContext } from './AppContext.tsx';
-import { LoginForm } from './Login/LoginModal.tsx';
-import { AddDataModal } from './miscellaneous/AddDataModal.tsx';
-import { PageHeader } from './miscellaneous/PageHeader.tsx';
-import { LeaderBoard } from './table/LeaderBoard.tsx';
-import { RunTable } from './table/RunTable.tsx';
+import { LoginForm } from './content/login/LoginModal.tsx';
+import { AddDataModal } from './modal/AddDataModal.tsx';
+import { PageHeader } from './content/PageHeader.tsx';
+import { LeaderBoard } from './content/table/LeaderBoard.tsx';
+import { RunTable } from './content/table/RunTable.tsx';
 
 export const App = () => {
     const { addRun, userId } = useContext(AppContext);

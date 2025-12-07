@@ -6,7 +6,7 @@ import { generateDateFromISOString, getTodayAsIsoString, isTodayOrYesterday } fr
 import { sendWarnMessage } from '../../utils/notifications.ts';
 import { AppContext } from '../AppContext.tsx';
 import { BaseModal } from './BaseModal.tsx';
-import { DateFormInput } from './DateFormInput.tsx';
+import { DateFormInput } from '../miscellaneous/DateFormInput.tsx';
 
 type AddDataModalProps = {
     isOpen?: boolean;

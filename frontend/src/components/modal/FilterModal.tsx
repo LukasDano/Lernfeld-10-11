@@ -5,9 +5,9 @@ import { TbFilterSearch } from 'react-icons/tb';
 
 import { ageGroupsFilterOptions, defaultFilter, genderFilterOptions } from '../../utils/filter.ts';
 import { sendInfoMessage } from '../../utils/notifications.ts';
-import { BaseButton } from './BaseButton.tsx';
+import { BaseButton } from '../miscellaneous/BaseButton.tsx';
 import { BaseModal } from './BaseModal.tsx';
-import { MultipleValueSelector, type SelectOption } from './MultipleValueSelector.tsx';
+import { MultipleValueSelector, type SelectOption } from '../miscellaneous/MultipleValueSelector.tsx';
 
 export type AcceptedFilterOptions = {
     genders: string[];
