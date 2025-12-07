@@ -12,7 +12,7 @@ export const LeaderBoardRow: FC<LeaderBoardRowProps> = ({ rank, index }) => {
         <tr key={index + rank.name} className={'dark:text-white'}>
             <td className="p-4">{index + 1}</td>
             <td className="p-4">{rank.name}</td>
-            <td className="p-4">{rank.total_km}</td>
+            <td className="p-4">{rank.total_km + ' km'}</td>
             <td className="p-4">{rank.lauf_tage}</td>
         </tr>
     );

@@ -8,7 +8,7 @@
         "build": "tsc -b && vite build",
         "lint": "eslint lf",
         "preview": "vite preview",
-        "tsc": "tsc",
+        "tsc": "tsc -b",
         "lint:all": "npm run lint:ts && npm run lint:tsx",
         "lint:ts": "eslint --ext .ts src/",
         "lint:tsx": "eslint --ext .tsx src/",
