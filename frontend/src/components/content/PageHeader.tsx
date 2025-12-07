@@ -24,7 +24,7 @@ export const PageHeader: FC<HeaderProps> = ({ openAddDataModal }) => {
                             flex items-center justify-between sticky top-0 z-20 shadow"
         >
             <div className="flex items-center gap-4">
-                <h1 className="text-4xl font-bold text-black">Laufchallenge</h1>
+                <h1 className="text-4xl font-bold text-sky-600">Laufchallenge</h1>
             </div>
 
             <div className="flex items-center gap-6 flex-wrap justify-end">

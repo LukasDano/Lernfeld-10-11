@@ -5,8 +5,8 @@ import type { NewRun } from '../../data/types.ts';
 import { generateDateFromISOString, getTodayAsIsoString, isTodayOrYesterday } from '../../utils/date.ts';
 import { sendWarnMessage } from '../../utils/notifications.ts';
 import { AppContext } from '../AppContext.tsx';
-import { BaseModal } from './BaseModal.tsx';
 import { DateFormInput } from '../miscellaneous/DateFormInput.tsx';
+import { BaseModal } from './BaseModal.tsx';
 
 type AddDataModalProps = {
     isOpen?: boolean;

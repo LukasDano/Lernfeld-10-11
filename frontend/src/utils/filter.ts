@@ -1,5 +1,5 @@
-import type { AcceptedFilterOptions } from '../components/modal/FilterModal.tsx';
 import type { SelectOption } from '../components/miscellaneous/MultipleValueSelector.tsx';
+import type { AcceptedFilterOptions } from '../components/modal/FilterModal.tsx';
 import type { Rank } from '../data/types.ts';
 
 export const genders = ['Männlich', 'Weiblich', 'Divers'];

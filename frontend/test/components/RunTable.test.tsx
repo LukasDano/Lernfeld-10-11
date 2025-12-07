@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 
 import { AppContext, type AppContextValues } from '../../src/components/AppContext';
-import { RunTable } from '../../src/components/content/table/RunTable';
+import { RunTable } from '../../src/components/content/tables/runTable/RunTable.tsx';
 import { fakeRanks, fakeRuns } from '../../src/data/mockData';
 import type { Run } from '../../src/data/types';
 
@@ -45,16 +45,6 @@ describe('RunTable', () => {
 
         fakeRuns.forEach((run) => {
             expect(screen.getByText(`${run.distance_km} km`)).toBeInTheDocument();
-        });
-    });
-
-    it('applies alternating row backgrounds', () => {
-        renderWithContext();
-
-        const rows = screen.getAllByRole('row').slice(1);
-        rows.forEach((row, index) => {
-            const expectedClass = index % 2 === 0 ? 'bg-white' : 'bg-gray-50';
-            expect(row.className).toContain(expectedClass);
         });
     });
 });

@@ -3,10 +3,10 @@ import { Toaster } from 'sonner';
 
 import { AppContext } from './AppContext.tsx';
 import { LoginForm } from './content/login/LoginModal.tsx';
-import { AddDataModal } from './modal/AddDataModal.tsx';
 import { PageHeader } from './content/PageHeader.tsx';
-import { LeaderBoard } from './content/table/LeaderBoard.tsx';
-import { RunTable } from './content/table/RunTable.tsx';
+import { LeaderBoard } from './content/tables/leaderBoard/LeaderBoard.tsx';
+import { RunTable } from './content/tables/runTable/RunTable.tsx';
+import { AddDataModal } from './modal/AddDataModal.tsx';
 
 export const App = () => {
     const { addRun, userId } = useContext(AppContext);
@@ -26,16 +26,9 @@ export const App = () => {
                     />
                     <PageHeader openAddDataModal={() => setAddDataModalOpen(true)} />
 
-                    <div className="w-full flex justify-center px-6">
-                        <div className="flex flex-col md:flex-row w-full max-w-6xl gap-52">
-                            <div className="w-full md:w-2/3">
-                                <RunTable />
-                            </div>
-
-                            <div className="w-full md:w-1/3">
-                                <LeaderBoard />
-                            </div>
-                        </div>
+                    <div className="flex flex-row items-center content-center justify-between p-48">
+                        <RunTable />
+                        <LeaderBoard />
                     </div>
                 </>
             ) : (
