@@ -2,13 +2,15 @@ import { useContext } from 'react';
 import 'tippy.js/dist/tippy.css';
 
 import { AppContext } from '../AppContext.tsx';
+import { TableHeadline } from './TableHeadline.tsx';
 
 export const RunTable = () => {
     const { runList } = useContext(AppContext);
 
     return (
         <div className="max-w-3xl mx-auto mt-8">
-            <h2>Neuste Läufe</h2>
+            <TableHeadline tableName="Neuste Läufe" filterButton={false} />
+
             <div className="overflow-x-auto rounded-lg shadow">
                 <table className="min-w-full border-collapse bg-white">
                     <thead className="bg-gray-100">

@@ -5,21 +5,26 @@ import type { NewRun } from '../../data/types.ts';
 import { generateDateFromISOString, getTodayAsIsoString, isTodayOrYesterday } from '../../utils/date.ts';
 import { sendWarnMessage } from '../../utils/notifications.ts';
 import { AppContext } from '../AppContext.tsx';
+import { BaseModal } from './BaseModal.tsx';
 import { DateFormInput } from './DateFormInput.tsx';
 
-type RunCreateModalProps = {
-    isOpen: boolean;
+type AddDataModalProps = {
+    isOpen?: boolean;
     onClose: () => void;
     onSave: (run: any) => void;
 };
 
-export const AddDataModal: FC<RunCreateModalProps> = ({ isOpen, onClose, onSave }) => {
+export const AddDataModal: FC<AddDataModalProps> = ({ isOpen, onClose, onSave }) => {
+    if (!isOpen) return null;
+
+    return <BaseModal isOpen={isOpen} onClose={onClose} content={<AddDataFrom onClose={onClose} onSave={onSave} />} />;
+};
+
+const AddDataFrom: FC<AddDataModalProps> = ({ onClose, onSave }) => {
     const { userId } = useContext(AppContext);
 
     const [date, setDate] = useState<string>(getTodayAsIsoString());
     const [distanceKm, setDistanceKm] = useState<string>('1,5');
-
-    if (!isOpen) return null;
 
     const checkValues = (): boolean => {
         let allowed = true;
@@ -65,37 +70,35 @@ export const AddDataModal: FC<RunCreateModalProps> = ({ isOpen, onClose, onSave 
     };
 
     return (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-            <div className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-md animate-fadeIn">
-                <h2 className="text-xl font-semibold mb-4">Neuen Lauf erfassen</h2>
+        <>
+            <h2 className="text-xl font-semibold mb-4">Neuen Lauf erfassen</h2>
 
-                <div className="space-y-4">
-                    <DateFormInput label={'Datum'} value={date} onChange={(val) => setDate(val)} />
+            <div className="space-y-4">
+                <DateFormInput label={'Datum'} value={date} onChange={(val) => setDate(val)} />
 
-                    <label className="block text-sm font-medium mb-1">Strecke (km)</label>
-                    <input
-                        type="number"
-                        className="w-full border rounded-lg px-3 py-2"
-                        value={distanceKm}
-                        min={1.5}
-                        placeholder={'0'}
-                        onChange={(evt) => setDistanceKm(evt.target.value)}
-                    />
-                </div>
-
-                <div className="mt-6 flex justify-end gap-3">
-                    <button onClick={handleClose} className="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300">
-                        Abbrechen
-                    </button>
-
-                    <button
-                        onClick={handleSubmit}
-                        className="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white"
-                    >
-                        Speichern
-                    </button>
-                </div>
+                <label className="block text-sm font-medium mb-1">Strecke (km)</label>
+                <input
+                    type="number"
+                    className="w-full border rounded-lg px-3 py-2"
+                    value={distanceKm}
+                    min={1.5}
+                    placeholder={'0'}
+                    onChange={(evt) => setDistanceKm(evt.target.value)}
+                />
             </div>
-        </div>
+
+            <div className="mt-6 flex justify-end gap-3">
+                <button onClick={handleClose} className="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300">
+                    Abbrechen
+                </button>
+
+                <button
+                    onClick={handleSubmit}
+                    className="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white"
+                >
+                    Speichern
+                </button>
+            </div>
+        </>
     );
 };

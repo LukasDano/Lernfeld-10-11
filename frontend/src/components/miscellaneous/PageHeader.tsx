@@ -1,9 +1,9 @@
-import Tippy from '@tippyjs/react';
-import { type FC, type ReactNode, useContext } from 'react';
+import { type FC, useContext } from 'react';
 import { IoIosAdd } from 'react-icons/io';
 import { LuLogOut } from 'react-icons/lu';
 
 import { AppContext } from '../AppContext.tsx';
+import { BaseButton } from './BaseButton.tsx';
 
 type HeaderProps = {
     openAddDataModal: () => void;
@@ -28,32 +28,13 @@ export const PageHeader: FC<HeaderProps> = ({ openAddDataModal }) => {
             </div>
 
             <div className="flex items-center gap-6 flex-wrap justify-end">
-                <HeaderButton
+                <BaseButton
                     icon={<IoIosAdd className={'w-6 h-6'} />}
                     tooltip={'Erfasse einen neuen Lauf'}
                     onClick={openAddDataModal}
                 />
-                <HeaderButton icon={<LuLogOut className={'w-6 h-6'} />} tooltip={'Logout'} onClick={logOut} />
+                <BaseButton icon={<LuLogOut className={'w-6 h-6'} />} tooltip={'Logout'} onClick={logOut} />
             </div>
         </nav>
-    );
-};
-
-type HeaderButtonProps = {
-    onClick: () => void;
-    icon: ReactNode;
-    tooltip: string;
-};
-
-const HeaderButton: FC<HeaderButtonProps> = ({ icon, onClick, tooltip }) => {
-    return (
-        <Tippy content={tooltip} animation={'scale'}>
-            <button
-                className={'flex items-center gap-2 px-4 py-2 rounded-lg shadow transition bg-blue-500'}
-                onClick={onClick}
-            >
-                {icon}
-            </button>
-        </Tippy>
     );
 };
