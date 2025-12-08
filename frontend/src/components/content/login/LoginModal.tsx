@@ -52,12 +52,14 @@ export const LoginForm = () => {
                     <LoginFormInput
                         lable={'Benutzer'}
                         value={user.userName}
+                        password={false}
                         onValueChange={(val) => updateUser('userName', val)}
                     />
 
                     <LoginFormInput
                         lable={'Passwort'}
                         value={user.password}
+                        password={true}
                         onValueChange={(val) => updateUser('password', val)}
                     />
 
@@ -114,14 +116,15 @@ type LoginFormInputProps = {
     lable: string;
     type?: string;
     placeholder?: string;
+    password: boolean;
 };
 
-const LoginFormInput: FC<LoginFormInputProps> = ({ lable, type, value, onValueChange, placeholder }) => {
+const LoginFormInput: FC<LoginFormInputProps> = ({ lable, type, value, onValueChange, placeholder, password }) => {
     return (
         <>
             <label className="block mb-1 text-sm font-medium">{lable}</label>
             <input
-                type={type || ''}
+                type={password ? "password" : type}
                 value={value}
                 onChange={(e) => onValueChange(e.target.value)}
                 placeholder={placeholder || `${lable} ...`}
