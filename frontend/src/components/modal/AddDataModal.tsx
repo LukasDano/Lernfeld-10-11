@@ -6,6 +6,7 @@ import { generateDateFromISOString, getTodayAsIsoString, isTodayOrYesterday } fr
 import { sendWarnMessage } from '../../utils/notifications.ts';
 import { AppContext } from '../AppContext.tsx';
 import { DateFormInput } from '../miscellaneous/DateFormInput.tsx';
+import { ToggleSwitch } from '../miscellaneous/ToggleSwitch.tsx';
 import { BaseModal } from './BaseModal.tsx';
 
 type AddDataModalProps = {
@@ -32,6 +33,7 @@ const AddDataFrom: FC<AddDataModalProps> = ({ onClose, onSave }) => {
 
     const [date, setDate] = useState<string>(getTodayAsIsoString());
     const [distanceKm, setDistanceKm] = useState<string>('1,5');
+    const [isTraining, setIsTraining] = useState<boolean>(false);
 
     const checkValues = (): boolean => {
         let allowed = true;
@@ -78,8 +80,6 @@ const AddDataFrom: FC<AddDataModalProps> = ({ onClose, onSave }) => {
 
     return (
         <>
-            <h2 className="text-xl font-semibold mb-4">Neuen Lauf erfassen</h2>
-
             <div className="space-y-4">
                 <DateFormInput label={'Datum'} value={date} onChange={(val) => setDate(val)} />
 
@@ -87,11 +87,14 @@ const AddDataFrom: FC<AddDataModalProps> = ({ onClose, onSave }) => {
                 <input
                     type="number"
                     className="w-full border rounded-lg px-3 py-2"
-                    value={distanceKm}
+                    value={isTraining ? 1.5 : distanceKm}
                     min={1.5}
                     placeholder={'0'}
                     onChange={(evt) => setDistanceKm(evt.target.value)}
+                    disabled={isTraining}
                 />
+
+                <ToggleSwitch onToggle={(val) => setIsTraining(val)} defaultValue={isTraining} name={'Trainingslauf'} />
             </div>
 
             <div className="mt-6 flex justify-end gap-3">
