@@ -32,7 +32,7 @@ const AddDataFrom: FC<AddDataModalProps> = ({ onClose, onSave }) => {
     const { userId } = useContext(AppContext);
 
     const [date, setDate] = useState<string>(getTodayAsIsoString());
-    const [distanceKm, setDistanceKm] = useState<string>('1,5');
+    const [distanceKm, setDistanceKm] = useState<string>('1.5');
     const [isTraining, setIsTraining] = useState<boolean>(false);
 
     const checkValues = (): boolean => {
@@ -94,7 +94,7 @@ const AddDataFrom: FC<AddDataModalProps> = ({ onClose, onSave }) => {
                     disabled={isTraining}
                 />
 
-                <ToggleSwitch onToggle={(val) => setIsTraining(val)} defaultValue={isTraining} name={'Trainingslauf'} />
+                <ToggleSwitch onToggle={(val) => setIsTraining(val)} defaultValue={isTraining} name={'Training'} />
             </div>
 
             <div className="mt-6 flex justify-end gap-3">
