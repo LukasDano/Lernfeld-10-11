@@ -9,7 +9,8 @@ import { type AcceptedFilterOptions, FilterModal } from '../../../modal/FilterMo
 import { TableHeadline } from '../TableHeadline.tsx';
 import { LeaderBoardRow } from './LeaderBoardRow.tsx';
 
-export type SortField = 'Strecke' | 'Lauftage';
+export type SortField = 'GesamtStrecke' | 'Lauftage' | 'WeitesterLauf';
+const sortOptions: SortField[] = ['GesamtStrecke', 'Lauftage', 'WeitesterLauf'];
 
 export const LeaderBoard = () => {
     const { rankList } = useContext(AppContext);
@@ -20,19 +21,19 @@ export const LeaderBoard = () => {
     const [filteredList, setFilteredList] = useState<Rank[]>(rankList);
 
     const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
-    const [sortField, setSortField] = useState<SortField>('Strecke');
+    const [sortField, setSortField] = useState<SortField>('GesamtStrecke');
 
     useEffect(() => {
         const newList = [...rankList]
             .filter((rank) => matchesFilters(rank, filterOptions))
             .sort((rankA, rankB) => {
-                if (sortField === 'Strecke') {
+                if (sortField === 'GesamtStrecke')
                     return sortOrder === 'asc' ? rankA.total_km - rankB.total_km : rankB.total_km - rankA.total_km;
-                } else if (sortField === 'Lauftage') {
+                else if (sortField === 'Lauftage')
                     return sortOrder === 'asc' ? rankA.lauf_tage - rankB.lauf_tage : rankB.lauf_tage - rankA.lauf_tage;
-                } else {
-                    return sortOrder === 'asc' ? rankA.total_km - rankB.total_km : rankB.total_km - rankA.total_km;
-                }
+                else if (sortField === 'WeitesterLauf')
+                    return sortOrder === 'asc' ? rankA.max_km - rankB.max_km : rankB.max_km - rankA.max_km;
+                else return sortOrder === 'asc' ? rankA.total_km - rankB.total_km : rankB.total_km - rankA.total_km;
             });
 
         // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -53,7 +54,7 @@ export const LeaderBoard = () => {
                 onFilterClick={() => setFilterModalOpen(true)}
                 sortOrder={sortOrder}
                 onSortOrderChange={(val) => setSortOrder(val)}
-                sortFields={['Strecke', 'Lauftage']}
+                sortFields={sortOptions}
                 currentSortField={sortField}
                 onSortFieldChange={(val) => setSortField(val)}
             />
@@ -65,6 +66,7 @@ export const LeaderBoard = () => {
                             <th className="p-4">Platz</th>
                             <th className="p-4">Teilnehmer</th>
                             <th className="p-4">Gesamt Strecke</th>
+                            <th className="p-4">Weitester Lauf</th>
                             <th className="p-4">Lauf Tage</th>
                         </tr>
                     </thead>

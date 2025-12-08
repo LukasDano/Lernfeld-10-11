@@ -13,6 +13,7 @@ export const LeaderBoardRow: FC<LeaderBoardRowProps> = ({ rank, index }) => {
             <td className="p-4">{index + 1}</td>
             <td className="p-4">{rank.name}</td>
             <td className="p-4">{rank.total_km + ' km'}</td>
+            <td className="p-4">{rank.max_km + ' km'}</td>
             <td className="p-4">{rank.lauf_tage}</td>
         </tr>
     );
