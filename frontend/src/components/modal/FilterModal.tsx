@@ -100,6 +100,7 @@ export const FilterModal: FC<FilterModalProps> = ({ isOpen, onClose, filterOptio
 
     return (
         <BaseModal
+            title={'Filter'}
             isOpen={isOpen}
             onClose={onClose}
             content={

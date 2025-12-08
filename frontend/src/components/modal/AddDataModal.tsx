@@ -17,7 +17,14 @@ type AddDataModalProps = {
 export const AddDataModal: FC<AddDataModalProps> = ({ isOpen, onClose, onSave }) => {
     if (!isOpen) return null;
 
-    return <BaseModal isOpen={isOpen} onClose={onClose} content={<AddDataFrom onClose={onClose} onSave={onSave} />} />;
+    return (
+        <BaseModal
+            title={'Neuen Lauf erfassen'}
+            isOpen={isOpen}
+            onClose={onClose}
+            content={<AddDataFrom onClose={onClose} onSave={onSave} />}
+        />
+    );
 };
 
 const AddDataFrom: FC<AddDataModalProps> = ({ onClose, onSave }) => {

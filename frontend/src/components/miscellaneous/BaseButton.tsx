@@ -19,3 +19,24 @@ export const BaseButton: FC<BaseButtonProps> = ({ icon, onClick, tooltip }) => {
         </Tippy>
     );
 };
+
+type TextButtonProps = {
+    onClick: () => void;
+    icon: ReactNode;
+    tooltip: string;
+    text: string;
+};
+
+export const TextButton: FC<TextButtonProps> = ({ icon, onClick, tooltip, text }) => {
+    return (
+        <Tippy content={tooltip} animation={'scale'}>
+            <button
+                className={'flex items-center gap-2 px-4 py-2 rounded-lg shadow transition bg-blue-500'}
+                onClick={onClick}
+            >
+                {icon}
+                <span>{text}</span>
+            </button>
+        </Tippy>
+    );
+};

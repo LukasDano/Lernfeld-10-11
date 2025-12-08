@@ -5,9 +5,10 @@ type BaseModalProps = {
     isOpen: boolean;
     onClose: () => void;
     content: ReactNode;
+    title: string;
 };
 
-export const BaseModal: FC<BaseModalProps> = ({ isOpen, onClose, content }) => {
+export const BaseModal: FC<BaseModalProps> = ({ isOpen, onClose, content, title }) => {
     if (!isOpen) return null;
 
     return (
@@ -27,7 +28,7 @@ export const BaseModal: FC<BaseModalProps> = ({ isOpen, onClose, content }) => {
                 >
                     <FaRegWindowClose />
                 </button>
-                <h2 className="text-xl font-semibold mb-4">Filter</h2>
+                <h2 className="text-xl font-semibold mb-4">{title}</h2>
                 {content}
             </div>
         </div>

@@ -124,7 +124,7 @@ const LoginFormInput: FC<LoginFormInputProps> = ({ lable, type, value, onValueCh
         <>
             <label className="block mb-1 text-sm font-medium">{lable}</label>
             <input
-                type={password ? "password" : type}
+                type={password ? 'password' : type}
                 value={value}
                 onChange={(e) => onValueChange(e.target.value)}
                 placeholder={placeholder || `${lable} ...`}
