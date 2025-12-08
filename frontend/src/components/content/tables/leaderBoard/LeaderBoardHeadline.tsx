@@ -1,13 +1,12 @@
 import type { FC } from 'react';
 import { FaFilter } from 'react-icons/fa';
 
-import { BaseButton } from '../../miscellaneous/BaseButton.tsx';
-import { DropDownSelect } from '../../miscellaneous/DropDownSelect.tsx';
-import { type SortOrder, SortSwitch } from '../../miscellaneous/SortSwitch.tsx';
-import type { SortField } from './leaderBoard/LeaderBoard.tsx';
+import { BaseButton } from '../../../miscellaneous/BaseButton.tsx';
+import { DropDownSelect } from '../../../miscellaneous/DropDownSelect.tsx';
+import { type SortOrder, SortSwitch } from '../../../miscellaneous/SortSwitch.tsx';
+import type { SortField } from './LeaderBoard.tsx';
 
-type TableHeadlineProps = {
-    tableName: string;
+type LeaderBoardHeadlineProps = {
     onFilterClick: () => void;
     sortOrder: SortOrder;
     onSortOrderChange: (order: SortOrder) => void;
@@ -16,8 +15,7 @@ type TableHeadlineProps = {
     onSortFieldChange: (value: SortField) => void;
 };
 
-export const TableHeadline: FC<TableHeadlineProps> = ({
-    tableName,
+export const LeaderBoardHeadline: FC<LeaderBoardHeadlineProps> = ({
     onFilterClick,
     sortOrder,
     onSortOrderChange,
@@ -27,7 +25,7 @@ export const TableHeadline: FC<TableHeadlineProps> = ({
 }) => {
     return (
         <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold">{tableName}</h2>
+            <h2 className="text-xl font-semibold">{'Rangliste'}</h2>
 
             <DropDownSelect
                 items={sortFields}
@@ -37,11 +35,7 @@ export const TableHeadline: FC<TableHeadlineProps> = ({
 
             <SortSwitch order={sortOrder} switchSort={onSortOrderChange} />
 
-            <BaseButton
-                icon={<FaFilter className="w-6 h-6" />}
-                tooltip={`Filter ${tableName}`}
-                onClick={onFilterClick}
-            />
+            <BaseButton icon={<FaFilter className="w-6 h-6" />} tooltip={`Filter Rangliste`} onClick={onFilterClick} />
         </div>
     );
 };

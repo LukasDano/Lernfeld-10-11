@@ -6,7 +6,7 @@ import { defaultFilter, matchesFilters } from '../../../../utils/filter.ts';
 import { AppContext } from '../../../AppContext.tsx';
 import type { SortOrder } from '../../../miscellaneous/SortSwitch.tsx';
 import { type AcceptedFilterOptions, FilterModal } from '../../../modal/FilterModal.tsx';
-import { TableHeadline } from '../TableHeadline.tsx';
+import { LeaderBoardHeadline } from './LeaderBoardHeadline.tsx';
 import { LeaderBoardRow } from './LeaderBoardRow.tsx';
 
 export type SortField = 'GesamtStrecke' | 'Lauftage' | 'WeitesterLauf';
@@ -49,8 +49,7 @@ export const LeaderBoard = () => {
                 updateFilterOptions={(vals) => setFilterOptions(vals)}
             />
 
-            <TableHeadline
-                tableName="Rangliste"
+            <LeaderBoardHeadline
                 onFilterClick={() => setFilterModalOpen(true)}
                 sortOrder={sortOrder}
                 onSortOrderChange={(val) => setSortOrder(val)}
