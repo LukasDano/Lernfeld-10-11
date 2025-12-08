@@ -58,7 +58,8 @@ export const postCreateUser = async (newUser: UserData): Promise<RegisterResult>
 
 type LoginResult = {
     success: boolean;
-    message: string;
+    message?: string;
+    error?: string;
     user: {
         id: number;
         geburtsdatum: string;
@@ -84,8 +85,8 @@ export const postLogIn = async (userName: string, password: string): Promise<Log
 
     const data = (await response.json()) as LoginResult;
 
-    if (data.success) sendSuccessMessage(data.message);
-    else if (data.message !== '') sendErrorMessage(data.message);
+    if (data.success && data.message) sendSuccessMessage(data.message);
+    else if (data.error) sendErrorMessage(data.error);
 
     return data;
 };
