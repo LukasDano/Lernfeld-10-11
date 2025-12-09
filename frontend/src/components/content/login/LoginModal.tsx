@@ -15,8 +15,9 @@ export const LoginForm = () => {
     const [user, setUser] = useState<UserData>({
         userName: '',
         password: '',
-        birthDate: '',
+        birthDate: getTodayAsIsoString(),
         gender: 'M', // Als Default Wert (weil die Option zuerst angezeigt wird)
+        token: 0,
     });
 
     const updateUser = (field: keyof UserData, val: string) => {
@@ -72,7 +73,7 @@ export const LoginForm = () => {
                         <>
                             <DateFormInput
                                 label={'Geburtstag'}
-                                value={user.birthDate || getTodayAsIsoString()}
+                                value={user.birthDate}
                                 onChange={(val) => updateUser('birthDate', val)}
                             />
 
@@ -88,6 +89,14 @@ export const LoginForm = () => {
                                     },
                                 ]}
                                 onValueChange={(val) => updateUser('gender', val)}
+                            />
+
+                            <LoginFormInput
+                                lable={'Token'}
+                                value={user.token === 0 ? '' : user.token}
+                                type={'number'}
+                                password={false}
+                                onValueChange={(val) => updateUser('token', val)}
                             />
                         </>
                     )}
@@ -113,7 +122,7 @@ export const LoginForm = () => {
 };
 
 type LoginFormInputProps = {
-    value: string;
+    value: string | number;
     onValueChange: (e: string) => void;
     lable: string;
     type?: string;

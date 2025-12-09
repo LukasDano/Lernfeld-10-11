@@ -3,6 +3,7 @@ export type UserData = {
     password: string;
     birthDate: string;
     gender: string;
+    token: number;
 };
 
 export type User = {

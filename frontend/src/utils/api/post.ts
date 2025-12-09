@@ -36,6 +36,7 @@ export const postCreateUser = async (newUser: UserData): Promise<RegisterResult>
         password: newUser.password,
         geburtsdatum: newUser.birthDate,
         geschlecht: newUser.gender.toUpperCase(),
+        token: newUser.token,
     };
 
     const url = realBackend + 'register';
