@@ -13,7 +13,7 @@ export const RunTable = () => {
     const [currentTableSize, setCurrentTableSize] = useState<TableDisplaySize>(10);
 
     return (
-        <div className="max-w-3xl mt-8">
+        <div className="w-full max-w-5xl mx-auto px-4 mt-8">
             <LeaderBoardHeadline
                 tableDisplaySizes={tableSizes}
                 selectedTableDisplaySize={currentTableSize}
