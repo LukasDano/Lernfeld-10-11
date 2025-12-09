@@ -20,8 +20,8 @@ export const RunTable = () => {
                 onTableSizeChange={(val) => setCurrentTableSize(val)}
             />
 
-            <div className="flex-none bg-white dark:bg-gray-800 shadow-lg rounded-xl overflow-hidden mt-6">
-                <table className="w-full min-w-3xl table-auto text-center">
+            <div className="w-full bg-white dark:bg-gray-800 shadow-lg rounded-xl overflow-hidden">
+                <table className="w-full table-auto text-center">
                     <thead className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
                         <tr>
                             <th className="p-4">Teilnehmer</th>
@@ -29,8 +29,7 @@ export const RunTable = () => {
                             <th className="p-4">Datum</th>
                         </tr>
                     </thead>
-
-                    <tbody>
+                    <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                         {runList.slice(0, currentTableSize).map((run, index) => (
                             <RunTableRow run={run} index={index} />
                         ))}

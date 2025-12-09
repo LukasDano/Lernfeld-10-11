@@ -41,7 +41,7 @@ export const LeaderBoard = () => {
     }, [filterOptions, rankList, sortOrder, sortField]);
 
     return (
-        <div className="max-w-3xl mx-auto mt-8">
+        <div className="w-full max-w-5xl mx-auto px-4 mt-8">
             <FilterModal
                 isOpen={filterModalOpen}
                 onClose={() => setFilterModalOpen(false)}
@@ -58,24 +58,31 @@ export const LeaderBoard = () => {
                 onSortFieldChange={(val) => setSortField(val)}
             />
 
-            <div className="flex-none w-full bg-white dark:bg-gray-800 shadow-lg rounded-xl overflow-hidden mt-6">
-                <table className="w-full table-auto text-center">
-                    <thead className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
-                        <tr>
-                            <th className="p-4">Platz</th>
-                            <th className="p-4">Teilnehmer</th>
-                            <th className="p-4">Gesamt Strecke</th>
-                            <th className="p-4">Weitester Lauf</th>
-                            <th className="p-4">Lauf Tage</th>
-                        </tr>
-                    </thead>
+            {/* Wrapper ensures nice desktop layout & perfect mobile scrolling */}
+            <div className="mt-6">
+                <div className="bg-white dark:bg-gray-800 shadow-lg rounded-xl overflow-hidden">
+                    {/* Mobile scroll wrapper */}
+                    <div className="overflow-x-auto">
+                        {/* Desktop: normal table width — Mobile: scroll at 700px */}
+                        <table className="w-full min-w-[700px] md:min-w-full table-auto text-center">
+                            <thead className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+                                <tr>
+                                    <th className="p-4 whitespace-nowrap">Platz</th>
+                                    <th className="p-4 whitespace-nowrap">Teilnehmer</th>
+                                    <th className="p-4 whitespace-nowrap">Gesamt Strecke</th>
+                                    <th className="p-4 whitespace-nowrap">Weitester Lauf</th>
+                                    <th className="p-4 whitespace-nowrap">Lauf Tage</th>
+                                </tr>
+                            </thead>
 
-                    <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                        {filteredList.map((rank, index) => (
-                            <LeaderBoardRow rank={rank} index={index} />
-                        ))}
-                    </tbody>
-                </table>
+                            <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                                {filteredList.map((rank, index) => (
+                                    <LeaderBoardRow rank={rank} index={index} key={index} />
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     );
