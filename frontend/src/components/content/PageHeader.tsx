@@ -25,8 +25,11 @@ export const PageHeader: FC<HeaderProps> = ({ openAddDataModal }) => {
     return (
         <nav
             className="p-4 bg-gray-100 border-b border-gray-300
-                            dark:bg-gray-800 dark:border-gray-900
-                            flex items-center justify-between sticky top-0 z-20 shadow"
+               dark:bg-gray-800 dark:border-gray-900
+               flex flex-col md:flex-row
+               items-center md:items-center
+               justify-between w-full
+               sticky top-0 z-20 shadow"
         >
             <div className="flex items-center gap-4">
                 <h1 className="text-4xl font-bold text-sky-600">Laufchallenge</h1>
@@ -34,18 +37,18 @@ export const PageHeader: FC<HeaderProps> = ({ openAddDataModal }) => {
 
             <MetaInfoModal isOpen={openModal} onClose={() => setOpenModal(false)} />
 
-            <div className="flex items-center gap-6 flex-wrap justify-end">
+            <div className="flex items-center gap-4 flex-wrap justify-end mt-4 md:mt-0">
                 <BaseButton
-                    icon={<IoIosAdd className={'w-6 h-6'} />}
-                    tooltip={'Erfasse einen neuen Lauf'}
+                    icon={<IoIosAdd className="w-6 h-6" />}
+                    tooltip="Erfasse einen neuen Lauf"
                     onClick={openAddDataModal}
                 />
                 <BaseButton
-                    icon={<GoLaw className={'w-6 h-6'} />}
-                    tooltip={'Rechtliches'}
+                    icon={<GoLaw className="w-6 h-6" />}
+                    tooltip="Rechtliches"
                     onClick={() => setOpenModal(true)}
                 />
-                <BaseButton icon={<LuLogOut className={'w-6 h-6'} />} tooltip={'Logout'} onClick={logOut} />
+                <BaseButton icon={<LuLogOut className="w-6 h-6" />} tooltip="Logout" onClick={logOut} />
             </div>
         </nav>
     );

@@ -26,7 +26,7 @@ export const App = () => {
                     />
                     <PageHeader openAddDataModal={() => setAddDataModalOpen(true)} />
 
-                    <div className="flex flex-row items-center content-center justify-between p-48">
+                    <div className="flex flex-col md:flex-row items-center justify-between p-6 md:p-48 gap-8">
                         <RunTable />
                         <LeaderBoard />
                     </div>
