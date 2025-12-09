@@ -26,12 +26,12 @@ export const App = () => {
                     />
                     <PageHeader openAddDataModal={() => setAddDataModalOpen(true)} />
 
-                    <div className="flex flex-col md:flex-row items-center md:items-start justify-center p-6 md:p-12 gap-20 md:gap-32 max-w-7xl mx-auto">
-                        <div className="w-full md:flex-1 md:min-w-[600px]">
+                    <div className="flex flex-col min-[1480px]:flex-row items-center min-[1480px]:items-start justify-center p-6 min-[1480px]:p-12 gap-20 min-[1480px]:gap-32 max-w-7xl mx-auto">
+                        <div className="w-full min-[1480px]:flex-1 min-[1480px]:min-w-[600px]">
                             <RunTable />
                         </div>
 
-                        <div className="w-full md:flex-1 md:min-w-[750px]">
+                        <div className="w-full min-[1480px]:flex-1 min-[1480px]:min-w-[750px]">
                             <LeaderBoard />
                         </div>
                     </div>
