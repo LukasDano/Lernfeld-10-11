@@ -38,9 +38,12 @@ export const LoginForm = () => {
     };
 
     const logUserIn = () => {
-        postLogIn(user.userName, user.password).then((res) => {
-            if (res.success) setUserId(res.user.id);
-        });
+        if (state === 'register') setState('login');
+        else {
+            postLogIn(user.userName, user.password).then((res) => {
+                if (res.success) setUserId(res.user.id);
+            });
+        }
     };
 
     return (
@@ -96,16 +99,13 @@ export const LoginForm = () => {
                     >
                         Registrieren
                     </button>
-
-                    {state === 'login' && (
-                        <button
-                            type={'button'}
-                            onClick={logUserIn}
-                            className="w-full bg-blue-600 text-white rounded-xl py-2 font-medium hover:bg-blue-700 transition"
-                        >
-                            Login
-                        </button>
-                    )}
+                    <button
+                        type={'button'}
+                        onClick={logUserIn}
+                        className="w-full bg-blue-600 text-white rounded-xl py-2 font-medium hover:bg-blue-700 transition"
+                    >
+                        Login
+                    </button>
                 </form>
             </div>
         </div>
