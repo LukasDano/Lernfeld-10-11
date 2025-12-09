@@ -58,12 +58,9 @@ export const LeaderBoard = () => {
                 onSortFieldChange={(val) => setSortField(val)}
             />
 
-            {/* Wrapper ensures nice desktop layout & perfect mobile scrolling */}
             <div className="mt-6">
                 <div className="bg-white dark:bg-gray-800 shadow-lg rounded-xl overflow-hidden">
-                    {/* Mobile scroll wrapper */}
                     <div className="overflow-x-auto">
-                        {/* Desktop: normal table width — Mobile: scroll at 700px */}
                         <table className="w-full min-w-[700px] md:min-w-full table-auto text-center">
                             <thead className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
                                 <tr>
