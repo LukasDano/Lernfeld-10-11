@@ -68,10 +68,11 @@ type LoginResult = {
     };
 };
 
-export const postLogIn = async (userName: string, password: string): Promise<LoginResult> => {
+export const postLogIn = async (userName: string, password: string, captcha: string): Promise<LoginResult> => {
     const bodyData = {
         name: userName,
         password: password,
+        captcha: captcha,
     };
 
     const url = realBackend + 'login';

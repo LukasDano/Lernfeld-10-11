@@ -1,8 +1,10 @@
 import { type FC, useContext, useState } from 'react';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 import type { UserData } from '../../../data/types.ts';
 import { postCreateUser, postLogIn } from '../../../utils/api/post.ts';
 import { getTodayAsIsoString } from '../../../utils/date.ts';
+import { sendErrorMessage } from '../../../utils/notifications.ts';
 import { AppContext } from '../../AppContext.tsx';
 import { DateFormInput } from '../../miscellaneous/DateFormInput.tsx';
 
@@ -11,6 +13,7 @@ type RegisterOrLogin = 'register' | 'login';
 export const LoginForm = () => {
     const { setUserId } = useContext(AppContext);
 
+    const [captchaValue, setCaptchaValue] = useState<string | null>(null);
     const [state, setState] = useState<RegisterOrLogin>('login');
     const [user, setUser] = useState<UserData>({
         userName: '',
@@ -29,19 +32,29 @@ export const LoginForm = () => {
 
     const handleRegister = () => {
         if (state === 'login') setState('register');
-        else
+        else {
+            if (!captchaValue) {
+                sendErrorMessage('Bitte Captcha ausfüllen.');
+                return;
+            }
             postCreateUser(user).then((res) => {
                 if (res.success)
-                    postLogIn(user.userName, user.password).then((res) => {
+                    postLogIn(user.userName, user.password, captchaValue).then((res) => {
                         if (res.success) setUserId(res.user.id);
                     });
             });
+        }
     };
 
     const logUserIn = () => {
         if (state === 'register') setState('login');
         else {
-            postLogIn(user.userName, user.password).then((res) => {
+            if (!captchaValue) {
+                sendErrorMessage('Bitte Captcha ausfüllen.');
+                return;
+            }
+
+            postLogIn(user.userName, user.password, captchaValue).then((res) => {
                 if (res.success) setUserId(res.user.id);
             });
         }
@@ -100,6 +113,11 @@ export const LoginForm = () => {
                             />
                         </>
                     )}
+
+                    <ReCAPTCHA
+                        sitekey="6LdD9iUsAAAAAORIQoTEICBafAyUTqkm60xNRO8M"
+                        onChange={(value) => setCaptchaValue(value)}
+                    />
 
                     <button
                         type={'button'}
