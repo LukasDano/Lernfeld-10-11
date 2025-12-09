@@ -66,7 +66,7 @@ export const LoginForm = () => {
                     {state === 'register' && (
                         <>
                             <DateFormInput
-                                label={'Datum'}
+                                label={'Geburtstag'}
                                 value={user.birthDate || getTodayAsIsoString()}
                                 onChange={(val) => updateUser('birthDate', val)}
                             />
