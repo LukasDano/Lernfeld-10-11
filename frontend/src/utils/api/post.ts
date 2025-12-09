@@ -26,7 +26,8 @@ export const postNewRun = async (newRun: NewRun) => {
 
 type RegisterResult = {
     success: boolean;
-    message: string;
+    message?: string;
+    error?: string;
 };
 
 export const postCreateUser = async (newUser: UserData): Promise<RegisterResult> => {
@@ -35,6 +36,7 @@ export const postCreateUser = async (newUser: UserData): Promise<RegisterResult>
         password: newUser.password,
         geburtsdatum: newUser.birthDate,
         geschlecht: newUser.gender.toUpperCase(),
+        token: newUser.token,
     };
 
     const url = realBackend + 'register';
@@ -49,15 +51,16 @@ export const postCreateUser = async (newUser: UserData): Promise<RegisterResult>
 
     const data = (await response.json()) as RegisterResult;
 
-    if (data.success) sendSuccessMessage(data.message);
-    else if (data.message !== '') sendErrorMessage(data.message);
+    if (data.success && data.message) sendSuccessMessage(data.message);
+    else if (data.error) sendErrorMessage(data.error);
 
     return data;
 };
 
 type LoginResult = {
     success: boolean;
-    message: string;
+    message?: string;
+    error?: string;
     user: {
         id: number;
         geburtsdatum: string;
@@ -65,10 +68,11 @@ type LoginResult = {
     };
 };
 
-export const postLogIn = async (userName: string, password: string): Promise<LoginResult> => {
+export const postLogIn = async (userName: string, password: string, captcha: string): Promise<LoginResult> => {
     const bodyData = {
         name: userName,
         password: password,
+        captcha: captcha,
     };
 
     const url = realBackend + 'login';
@@ -83,8 +87,8 @@ export const postLogIn = async (userName: string, password: string): Promise<Log
 
     const data = (await response.json()) as LoginResult;
 
-    if (data.success) sendSuccessMessage(data.message);
-    else if (data.message !== '') sendErrorMessage(data.message);
+    if (data.success && data.message) sendSuccessMessage(data.message);
+    else if (data.error) sendErrorMessage(data.error);
 
     return data;
 };

@@ -1,21 +1,26 @@
 import { type FC, useContext, useState } from 'react';
+import ReCAPTCHA from 'react-google-recaptcha';
 
-import type { UserData } from '../../data/types.ts';
-import { postCreateUser, postLogIn } from '../../utils/api/post.ts';
-import { AppContext } from '../AppContext.tsx';
-import { DateFormInput } from '../miscellaneous/DateFormInput.tsx';
+import type { UserData } from '../../../data/types.ts';
+import { postCreateUser, postLogIn } from '../../../utils/api/post.ts';
+import { getTodayAsIsoString } from '../../../utils/date.ts';
+import { sendErrorMessage } from '../../../utils/notifications.ts';
+import { AppContext } from '../../AppContext.tsx';
+import { DateFormInput } from '../../miscellaneous/DateFormInput.tsx';
 
 type RegisterOrLogin = 'register' | 'login';
 
 export const LoginForm = () => {
     const { setUserId } = useContext(AppContext);
 
+    const [captchaValue, setCaptchaValue] = useState<string | null>(null);
     const [state, setState] = useState<RegisterOrLogin>('login');
     const [user, setUser] = useState<UserData>({
         userName: '',
         password: '',
-        birthDate: '',
+        birthDate: getTodayAsIsoString(),
         gender: 'M', // Als Default Wert (weil die Option zuerst angezeigt wird)
+        token: 0,
     });
 
     const updateUser = (field: keyof UserData, val: string) => {
@@ -27,43 +32,60 @@ export const LoginForm = () => {
 
     const handleRegister = () => {
         if (state === 'login') setState('register');
-        else
+        else {
+            if (!captchaValue) {
+                sendErrorMessage('Bitte Captcha ausfüllen.');
+                return;
+            }
             postCreateUser(user).then((res) => {
                 if (res.success)
-                    postLogIn(user.userName, user.password).then((res) => {
+                    postLogIn(user.userName, user.password, captchaValue).then((res) => {
                         if (res.success) setUserId(res.user.id);
                     });
             });
+        }
     };
 
     const logUserIn = () => {
-        postLogIn(user.userName, user.password).then((res) => {
-            if (res.success) setUserId(res.user.id);
-        });
+        if (state === 'register') setState('login');
+        else {
+            if (!captchaValue) {
+                sendErrorMessage('Bitte Captcha ausfüllen.');
+                return;
+            }
+
+            postLogIn(user.userName, user.password, captchaValue).then((res) => {
+                if (res.success) setUserId(res.user.id);
+            });
+        }
     };
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
             <div className="w-full max-w-sm bg-white p-6 rounded-2xl shadow-lg">
-                <h2 className="text-2xl font-semibold text-center mb-6">Login</h2>
+                <h2 className="text-2xl font-semibold text-center mb-6">
+                    {state === 'register' ? 'Registrierung' : 'Login'}
+                </h2>
 
                 <form className="grid gap-4">
                     <LoginFormInput
                         lable={'Benutzer'}
                         value={user.userName}
+                        password={false}
                         onValueChange={(val) => updateUser('userName', val)}
                     />
 
                     <LoginFormInput
                         lable={'Passwort'}
                         value={user.password}
+                        password={true}
                         onValueChange={(val) => updateUser('password', val)}
                     />
 
                     {state === 'register' && (
                         <>
                             <DateFormInput
-                                label={'Datum'}
+                                label={'Geburtstag'}
                                 value={user.birthDate}
                                 onChange={(val) => updateUser('birthDate', val)}
                             />
@@ -81,8 +103,21 @@ export const LoginForm = () => {
                                 ]}
                                 onValueChange={(val) => updateUser('gender', val)}
                             />
+
+                            <LoginFormInput
+                                lable={'Token'}
+                                value={user.token === 0 ? '' : user.token}
+                                type={'number'}
+                                password={false}
+                                onValueChange={(val) => updateUser('token', val)}
+                            />
                         </>
                     )}
+
+                    <ReCAPTCHA
+                        sitekey="6LdD9iUsAAAAAORIQoTEICBafAyUTqkm60xNRO8M"
+                        onChange={(value) => setCaptchaValue(value)}
+                    />
 
                     <button
                         type={'button'}
@@ -91,16 +126,13 @@ export const LoginForm = () => {
                     >
                         Registrieren
                     </button>
-
-                    {state === 'login' && (
-                        <button
-                            type={'button'}
-                            onClick={logUserIn}
-                            className="w-full bg-blue-600 text-white rounded-xl py-2 font-medium hover:bg-blue-700 transition"
-                        >
-                            Login
-                        </button>
-                    )}
+                    <button
+                        type={'button'}
+                        onClick={logUserIn}
+                        className="w-full bg-blue-600 text-white rounded-xl py-2 font-medium hover:bg-blue-700 transition"
+                    >
+                        Login
+                    </button>
                 </form>
             </div>
         </div>
@@ -108,19 +140,20 @@ export const LoginForm = () => {
 };
 
 type LoginFormInputProps = {
-    value: string;
+    value: string | number;
     onValueChange: (e: string) => void;
     lable: string;
     type?: string;
     placeholder?: string;
+    password: boolean;
 };
 
-const LoginFormInput: FC<LoginFormInputProps> = ({ lable, type, value, onValueChange, placeholder }) => {
+const LoginFormInput: FC<LoginFormInputProps> = ({ lable, type, value, onValueChange, placeholder, password }) => {
     return (
         <>
             <label className="block mb-1 text-sm font-medium">{lable}</label>
             <input
-                type={type || ''}
+                type={password ? 'password' : type}
                 value={value}
                 onChange={(e) => onValueChange(e.target.value)}
                 placeholder={placeholder || `${lable} ...`}

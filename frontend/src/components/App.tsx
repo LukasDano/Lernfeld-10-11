@@ -2,11 +2,11 @@ import { useContext, useState } from 'react';
 import { Toaster } from 'sonner';
 
 import { AppContext } from './AppContext.tsx';
-import { LoginForm } from './Login/LoginModal.tsx';
-import { AddDataModal } from './miscellaneous/AddDataModal.tsx';
-import { PageHeader } from './miscellaneous/PageHeader.tsx';
-import { LeaderBoard } from './table/LeaderBoard.tsx';
-import { RunTable } from './table/RunTable.tsx';
+import { LoginForm } from './content/login/LoginModal.tsx';
+import { PageHeader } from './content/PageHeader.tsx';
+import { LeaderBoard } from './content/tables/leaderBoard/LeaderBoard.tsx';
+import { RunTable } from './content/tables/runTable/RunTable.tsx';
+import { AddDataModal } from './modal/AddDataModal.tsx';
 
 export const App = () => {
     const { addRun, userId } = useContext(AppContext);
@@ -26,15 +26,13 @@ export const App = () => {
                     />
                     <PageHeader openAddDataModal={() => setAddDataModalOpen(true)} />
 
-                    <div className="w-full flex justify-center px-6">
-                        <div className="flex flex-col md:flex-row w-full max-w-6xl gap-52">
-                            <div className="w-full md:w-2/3">
-                                <RunTable />
-                            </div>
+                    <div className="flex flex-col min-[1480px]:flex-row items-center min-[1480px]:items-start justify-center p-6 min-[1480px]:p-12 gap-20 min-[1480px]:gap-32 max-w-7xl mx-auto">
+                        <div className="w-full min-[1480px]:flex-1 min-[1480px]:min-w-[600px]">
+                            <RunTable />
+                        </div>
 
-                            <div className="w-full md:w-1/3">
-                                <LeaderBoard />
-                            </div>
+                        <div className="w-full min-[1480px]:flex-1 min-[1480px]:min-w-[750px]">
+                            <LeaderBoard />
                         </div>
                     </div>
                 </>

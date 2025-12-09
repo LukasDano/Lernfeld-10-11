@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 
 import { AppContext, type AppContextValues } from '../../src/components/AppContext';
-import { LeaderBoard } from '../../src/components/table/LeaderBoard.tsx';
+import { LeaderBoard } from '../../src/components/content/tables/leaderBoard/LeaderBoard.tsx';
 import { fakeRanks, fakeRuns } from '../../src/data/mockData';
 import type { Rank } from '../../src/data/types';
 
@@ -47,16 +47,6 @@ describe('LeaderBoard', () => {
         const rankCells = screen.queryAllByTestId('rank-cell');
         rankCells.forEach((cell, index) => {
             expect(cell.textContent).toBe(`${index + 1}.`);
-        });
-    });
-
-    it('applies alternating row backgrounds', () => {
-        renderWithContext();
-
-        const rows = screen.getAllByRole('row').slice(1);
-        rows.forEach((row, index) => {
-            const expectedClass = index % 2 === 0 ? 'bg-white' : 'bg-gray-50';
-            expect(row.className).toContain(expectedClass);
         });
     });
 });

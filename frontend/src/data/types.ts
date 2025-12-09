@@ -3,6 +3,7 @@ export type UserData = {
     password: string;
     birthDate: string;
     gender: string;
+    token: number;
 };
 
 export type User = {
@@ -23,6 +24,7 @@ export type Run = {
 export type Rank = {
     name: string;
     total_km: number;
+    max_km: number;
     lauf_tage: number;
     geburtsdatum: string;
     geschlecht: string;
