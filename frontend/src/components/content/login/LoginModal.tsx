@@ -1,4 +1,4 @@
-import { type FC, useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 
 import type { UserData } from '../../../data/types.ts';
@@ -7,6 +7,8 @@ import { getTodayAsIsoString } from '../../../utils/date.ts';
 import { sendErrorMessage } from '../../../utils/notifications.ts';
 import { AppContext } from '../../AppContext.tsx';
 import { DateFormInput } from '../../miscellaneous/DateFormInput.tsx';
+import { DatenschutzFormContent } from './DatenschutzFormContent.tsx';
+import { LoginFormInput, LoginFormSelect } from './LoginForms.tsx';
 
 type RegisterOrLogin = 'register' | 'login';
 
@@ -15,11 +17,13 @@ export const LoginForm = () => {
 
     const [captchaValue, setCaptchaValue] = useState<string | null>(null);
     const [state, setState] = useState<RegisterOrLogin>('login');
+    const [privacyAccepted, setPrivacyAccepted] = useState<boolean>(false);
+
     const [user, setUser] = useState<UserData>({
         userName: '',
         password: '',
         birthDate: getTodayAsIsoString(),
-        gender: 'M', // Als Default Wert (weil die Option zuerst angezeigt wird)
+        gender: 'M',
         token: 0,
     });
 
@@ -33,10 +37,16 @@ export const LoginForm = () => {
     const handleRegister = () => {
         if (state === 'login') setState('register');
         else {
+            if (!privacyAccepted) {
+                sendErrorMessage('Bitte akzeptiere die Datenschutzerklärung.');
+                return;
+            }
+
             if (!captchaValue) {
                 sendErrorMessage('Bitte Captcha ausfüllen.');
                 return;
             }
+
             postCreateUser(user).then((res) => {
                 if (res.success)
                     postLogIn(user.userName, user.password, captchaValue).then((res) => {
@@ -92,14 +102,11 @@ export const LoginForm = () => {
 
                             <LoginFormSelect
                                 label={'Geschlecht'}
-                                value={'M'}
+                                value={user.gender}
                                 options={[
                                     { key: 'Männlich', value: 'M' },
                                     { key: 'Weiblich', value: 'W' },
-                                    {
-                                        key: 'Divers',
-                                        value: 'D',
-                                    },
+                                    { key: 'Divers', value: 'D' },
                                 ]}
                                 onValueChange={(val) => updateUser('gender', val)}
                             />
@@ -111,6 +118,11 @@ export const LoginForm = () => {
                                 password={false}
                                 onValueChange={(val) => updateUser('token', val)}
                             />
+
+                            <DatenschutzFormContent
+                                privacyAccepted={privacyAccepted}
+                                setPrivacyAccepted={(val: boolean) => setPrivacyAccepted(val)}
+                            />
                         </>
                     )}
 
@@ -120,14 +132,20 @@ export const LoginForm = () => {
                     />
 
                     <button
-                        type={'button'}
+                        type="button"
                         onClick={handleRegister}
-                        className="w-full bg-zinc-500 text-white rounded-xl py-2 font-medium hover:bg-zinc-600 transition"
+                        disabled={state === 'register' && !privacyAccepted}
+                        className={`w-full rounded-xl py-2 font-medium transition ${
+                            state === 'register' && !privacyAccepted
+                                ? 'bg-gray-400 cursor-not-allowed'
+                                : 'bg-zinc-500 hover:bg-zinc-600 text-white'
+                        }`}
                     >
                         Registrieren
                     </button>
+
                     <button
-                        type={'button'}
+                        type="button"
                         onClick={logUserIn}
                         className="w-full bg-blue-600 text-white rounded-xl py-2 font-medium hover:bg-blue-700 transition"
                     >
@@ -136,64 +154,5 @@ export const LoginForm = () => {
                 </form>
             </div>
         </div>
-    );
-};
-
-type LoginFormInputProps = {
-    value: string | number;
-    onValueChange: (e: string) => void;
-    lable: string;
-    type?: string;
-    placeholder?: string;
-    password: boolean;
-};
-
-const LoginFormInput: FC<LoginFormInputProps> = ({ lable, type, value, onValueChange, placeholder, password }) => {
-    return (
-        <>
-            <label className="block mb-1 text-sm font-medium">{lable}</label>
-            <input
-                type={password ? 'password' : type}
-                value={value}
-                onChange={(e) => onValueChange(e.target.value)}
-                placeholder={placeholder || `${lable} ...`}
-                required
-                className="w-full border rounded-xl px-3 py-2"
-            />
-        </>
-    );
-};
-
-type LoginFormSelectProps = {
-    label: string;
-    value: string;
-    onValueChange: (value: string) => void;
-    options: { key: string; value: string }[];
-    placeholder?: string;
-};
-
-const LoginFormSelect: FC<LoginFormSelectProps> = ({ label, value, onValueChange, options, placeholder }) => {
-    return (
-        <>
-            <label className="block mb-1 text-sm font-medium">{label}</label>
-            <select
-                value={value}
-                onChange={(e) => onValueChange(e.target.value)}
-                required
-                className="w-full border rounded-xl px-3 py-2 bg-white"
-            >
-                {placeholder && (
-                    <option value="" disabled>
-                        {placeholder}
-                    </option>
-                )}
-
-                {options.map((opt) => (
-                    <option key={opt.value} value={opt.value}>
-                        {opt.key}
-                    </option>
-                ))}
-            </select>
-        </>
     );
 };
